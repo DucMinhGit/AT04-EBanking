@@ -9,6 +9,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 @Log4j2
 public class LoginPage {
+
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    private final By usernameInput = By.xpath("//input[@type='text' and @class='contact_filed']");
+    private final By passwordInput = By.xpath("//input[@type='password' and @class='contact_filed']");
+    private final By loginButton = By.xpath("//form[contains(@action, 'index.xhtml')]//input[@type='submit']");
+
+    private final By errorMessageText = By.cssSelector("div.ui-growl-message > p");
+
     public LoginPage() {
         this.driver = Driver.getDriver();
         this.wait = Driver.getWebDriverWait();
@@ -16,24 +26,23 @@ public class LoginPage {
 
     public void enterUsername(String username) {
         log.info("Enter username: {}", username);
-        driver.findElement(usernameInput).sendKeys(username);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(usernameInput)).sendKeys(username);
     }
 
     public void enterPassword(String password) {
         log.info("Enter password: ***");
-        driver.findElement(passwordInput).sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordInput)).sendKeys(password);
     }
 
     public void clickLoginButton() {
         log.info("Click Login Btn");
-        driver.findElement(loginButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
     }
 
     public HomePage login(String username, String password) {
         enterUsername(username);
         enterPassword(password);
         clickLoginButton();
-
         return new HomePage();
     }
 
@@ -42,12 +51,4 @@ public class LoginPage {
         log.warn("Lấy được thông báo lỗi: {}", message);
         return message;
     }
-
-    private WebDriver driver;
-    private WebDriverWait wait;
-
-    private final By usernameInput = By.xpath("//input[contains(@name, 'j_idt12')]");
-    private final By passwordInput = By.xpath("//input[contains(@name, 'j_idt14')]");
-    private final By loginButton = By.xpath("//input[@type='submit']");
-    private final By errorMessageText = By.cssSelector("div.ui-growl-message > p");
 }

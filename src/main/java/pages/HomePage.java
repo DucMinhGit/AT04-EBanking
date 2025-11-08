@@ -9,11 +9,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 @Log4j2
 public class HomePage {
+
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    private final By transferLink = By.xpath("//a[@href='/EBankingWebsite/faces/transfer.xhtml']//span[@class='ui-menuitem-text']");
+
+    private final By transactionHistoryLink = By.xpath("//span[text()='Nhật kí giao dịch']/ancestor::a");
+
+    private final By logoutLink = By.xpath("//span[text()='Đăng xuất']/ancestor::a");
     public HomePage() {
         this.driver = Driver.getDriver();
         this.wait = Driver.getWebDriverWait();
     }
-
     public void waitForPageLoad() {
         log.info("Waitting (Homepage) dowloaded...");
         wait.until(ExpectedConditions.visibilityOfElementLocated(logoutLink));
@@ -29,10 +37,4 @@ public class HomePage {
         log.info("Enter'history transaction'");
         wait.until(ExpectedConditions.elementToBeClickable(transactionHistoryLink)).click();
     }
-
-    private WebDriver driver;
-    private WebDriverWait wait;
-    private final By transferLink = By.xpath("//span[text()='Chuyển  khoản']");
-    private final By transactionHistoryLink = By.xpath("//span[text()='Nhật kí giao dịch']/ancestor::a");
-    private final By logoutLink = By.xpath("//span[text()='Đăng xuất']/ancestor::a");
 }
