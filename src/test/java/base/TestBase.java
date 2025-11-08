@@ -43,20 +43,25 @@ public class TestBase {
 
         WebDriver driver;
 
-        boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));
+        boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));;
         if (isHeadless) {
             log.warn("The browser is running in headless mode.");
         }
 
         if (browser.equalsIgnoreCase("chrome")) {
             ChromeOptions options = new ChromeOptions();
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--guest");
             if (isHeadless) {
-                options.addArguments("--headless");
+                log.warn("The browser is running in headless mode.");
+                options.addArguments("--headless=new");
                 options.addArguments("--disable-gpu");
                 options.addArguments("--window-size=1920,1080");
+                options.addArguments("--start-maximized");
             }
             driver = new ChromeDriver(options);
+            driver.manage().window().maximize();
         } else if (browser.equalsIgnoreCase("firefox")) {
             FirefoxOptions options = new FirefoxOptions();
             if (isHeadless) {
@@ -78,7 +83,6 @@ public class TestBase {
 
         log.info("Launching the browser and accessing the URL.");
         Driver.getDriver().get(baseURL);
-        Driver.getDriver().manage().window().maximize();
 
         log.info("Starting automatic login execution...");
         LoginPage loginPage = new LoginPage();
