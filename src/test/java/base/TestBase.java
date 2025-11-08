@@ -14,9 +14,28 @@ import org.testng.annotations.BeforeMethod;
 import lombok.extern.log4j.Log4j2;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Optional;
+import pages.HomePage;
+import pages.LoginPage;
+
+import java.io.FileReader;
+import java.util.Properties;
 
 @Log4j2
 public class TestBase {
+    protected Properties config = new Properties();
+    protected String baseURL;
+
+    protected HomePage homePage;
+
+    public TestBase() {
+        try {
+            config.load(new FileReader("src/test/resources/config.properties"));
+            baseURL = config.getProperty("base.url");
+        } catch (Exception e) {
+            log.error("Không thể đọc file config.properties", e);
+        }
+    }
+
     @Parameters("browser")
     @BeforeMethod
     public void setUp(@Optional("chrome") String browser, ITestResult result) {
@@ -58,8 +77,19 @@ public class TestBase {
         Driver.setDriver(driver);
 
         log.info("Launching the browser and accessing the URL.");
-        Driver.getDriver().get("http://14.176.232.213:8080/EBankingWebsite/");
+        Driver.getDriver().get(baseURL);
         Driver.getDriver().manage().window().maximize();
+
+        log.info("Starting automatic login execution...");
+        LoginPage loginPage = new LoginPage();
+
+        this.homePage = loginPage.login(
+                config.getProperty("default.username"),
+                config.getProperty("default.password")
+        );
+
+        this.homePage.waitForPageLoad();
+        log.info("Login successfully!!!");
     }
 
     @AfterMethod
