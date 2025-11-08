@@ -14,17 +14,18 @@ import org.testng.annotations.BeforeMethod;
 import lombok.extern.log4j.Log4j2;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Optional;
+import org.slf4j.MDC;
 import pages.HomePage;
 import pages.LoginPage;
 
 import java.io.FileReader;
 import java.util.Properties;
+import java.util.UUID;
 
 @Log4j2
 public class TestBase {
     protected Properties config = new Properties();
     protected String baseURL;
-
     protected HomePage homePage;
 
     public TestBase() {
@@ -32,18 +33,24 @@ public class TestBase {
             config.load(new FileReader("src/test/resources/config.properties"));
             baseURL = config.getProperty("base.url");
         } catch (Exception e) {
-            log.error("Không thể đọc file config.properties", e);
+            log.error("Can not read file config.properties", e);
         }
     }
 
     @Parameters("browser")
     @BeforeMethod
     public void setUp(@Optional("chrome") String browser, ITestResult result) {
+        String sessionId = UUID.randomUUID().toString().substring(0, 8);
+        MDC.put("sessionId", sessionId);
+        MDC.put("browser", browser);
+        MDC.put("testName", result.getMethod().getMethodName());
+
         log.info("===== START TEST CASE: {} =====", result.getMethod().getMethodName());
+        log.info("Session [{}] - Browser [{}]", sessionId, browser);
 
         WebDriver driver;
 
-        boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));;
+        boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));
         if (isHeadless) {
             log.warn("The browser is running in headless mode.");
         }
@@ -54,26 +61,16 @@ public class TestBase {
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--guest");
             if (isHeadless) {
-                log.warn("The browser is running in headless mode.");
-                options.addArguments("--headless=new");
-                options.addArguments("--disable-gpu");
-                options.addArguments("--window-size=1920,1080");
-                options.addArguments("--start-maximized");
+                options.addArguments("--headless=new", "--disable-gpu", "--window-size=1920,1080", "--start-maximized");
             }
             driver = new ChromeDriver(options);
-            driver.manage().window().maximize();
         } else if (browser.equalsIgnoreCase("firefox")) {
             FirefoxOptions options = new FirefoxOptions();
-            if (isHeadless) {
-                options.addArguments("--headless");
-            }
+            if (isHeadless) options.addArguments("--headless");
             driver = new FirefoxDriver(options);
         } else if (browser.equalsIgnoreCase("edge")) {
             EdgeOptions options = new EdgeOptions();
-            if (isHeadless) {
-                options.addArguments("--headless");
-                options.addArguments("--disable-gpu");
-            }
+            if (isHeadless) options.addArguments("--headless", "--disable-gpu");
             driver = new EdgeDriver(options);
         } else {
             throw new IllegalArgumentException("Not found Browser: " + browser);
@@ -81,11 +78,13 @@ public class TestBase {
 
         Driver.setDriver(driver);
 
-        log.info("Launching the browser and accessing the URL.");
+        log.info("Launching the browser and accessing the URL: {}", baseURL);
         Driver.getDriver().get(baseURL);
 
         log.info("Starting automatic login execution...");
         LoginPage loginPage = new LoginPage();
+
+        loginPage.waitForPageLoad();
 
         this.homePage = loginPage.login(
                 config.getProperty("default.username"),
@@ -101,12 +100,18 @@ public class TestBase {
         log.info("CLOSE BROWSER!!!");
         Driver.getDriver().quit();
 
+        String testName = MDC.get("testName");
+        String status;
         if (result.getStatus() == ITestResult.SUCCESS) {
-            log.info("===== TEST CASE FINISHED: {} (PASS) =====", result.getMethod().getMethodName());
+            status = "PASS";
         } else if (result.getStatus() == ITestResult.FAILURE) {
-            log.info("===== TEST CASE FINISHED: {} (FAIL) =====", result.getMethod().getMethodName());
+            status = "FAIL";
         } else {
-            log.info("===== TEST CASE FINISHED: {} (FAIL) =====", result.getMethod().getMethodName());
+            status = "SKIP";
         }
+
+        log.info("===== TEST CASE FINISHED: {} ({}) =====", testName, status);
+
+        MDC.clear();
     }
 }
