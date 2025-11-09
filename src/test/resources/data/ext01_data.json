@@ -1,0 +1,11 @@
+[
+  {
+    "fromAccountValue": "100001428",
+    "receiverAccount": "987654321",
+    "receiverName": "NGUYEN VAN A",
+    "bankValue": "100001",
+    "branchValue": "1",
+    "content": "Chuyen khoan ga 45kg",
+    "amount": "5000000"
+  }
+]

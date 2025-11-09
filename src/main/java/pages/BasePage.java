@@ -1,6 +1,6 @@
 package pages;
 
-import Utils.Driver;
+import utils.Driver;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

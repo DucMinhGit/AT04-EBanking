@@ -25,6 +25,10 @@ public class HomePage extends BasePage {
         sideMenu.clickTransfer();
     }
 
+    public void clickExternalTransfer() {
+        sideMenu.clickExternalTransfer();
+    }
+
     public void clickTransactionHistory() {
         sideMenu.clickTransactionHistory();
     }

@@ -1,6 +1,6 @@
 package base;
 
-import Utils.Driver;
+import utils.Driver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -17,7 +17,6 @@ import org.testng.annotations.Optional;
 import org.slf4j.MDC;
 import pages.HomePage;
 import pages.LoginPage;
-
 import java.io.FileReader;
 import java.util.Properties;
 import java.util.UUID;
@@ -51,6 +50,7 @@ public class TestBase {
         WebDriver driver;
 
         boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));
+
         if (isHeadless) {
             log.warn("The browser is running in headless mode.");
         }

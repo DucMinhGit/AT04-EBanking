@@ -1,0 +1,57 @@
+[
+  {
+    "caseId": "EXT-01",
+    "fromAccountValue": "",
+    "receiverAccount": "987654321",
+    "receiverName": "NGUYEN VAN A",
+    "bankValue": "100001",
+    "branchValue": "1",
+    "content": "Test case 1: Bo trong TK nguon",
+    "amount": "50000",
+    "expectedErrorMessage": "Chọn tài khoản"
+  },
+  {
+    "caseId": "EXT-02",
+    "fromAccountValue": "100001428",
+    "receiverAccount": "",
+    "receiverName": "NGUYEN VAN A",
+    "bankValue": "100001",
+    "branchValue": "1",
+    "content": "Test case 2: Bo trong STK nhan",
+    "amount": "50000",
+    "expectedErrorMessage": "Nhập số tài khoản"
+  },
+  {
+    "caseId": "EXT-03",
+    "fromAccountValue": "100001428",
+    "receiverAccount": "987654321",
+    "receiverName": "",
+    "bankValue": "100001",
+    "branchValue": "1",
+    "content": "Test case 3: Bo trong Ten nguoi nhan",
+    "amount": "50000",
+    "expectedErrorMessage": "Nhập tên người nhận"
+  },
+  {
+    "caseId": "EXT-04",
+    "fromAccountValue": "100001428",
+    "receiverAccount": "987654321",
+    "receiverName": "NGUYEN VAN A",
+    "bankValue": "",
+    "branchValue": "1",
+    "content": "Test case 4: Bo trong Ngan hang",
+    "amount": "50000",
+    "expectedErrorMessage": "Mời chọn Ngân hàng"
+  },
+  {
+    "caseId": "EXT-05",
+    "fromAccountValue": "100001428",
+    "receiverAccount": "987654321",
+    "receiverName": "NGUYEN VAN A",
+    "bankValue": "100001",
+    "branchValue": "",
+    "content": "Test case 5: Bo trong Chi nhanh",
+    "amount": "50000",
+    "expectedErrorMessage": "Mời chọn chi nhánh"
+  }
+]
