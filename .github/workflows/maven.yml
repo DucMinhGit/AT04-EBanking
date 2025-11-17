@@ -35,7 +35,7 @@ jobs:
           allure_results_dir: target/allure-results
           install_allure: true
       - name: 6. Publish Allure Report to GitHub Pages
-        if: always(
+        if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
