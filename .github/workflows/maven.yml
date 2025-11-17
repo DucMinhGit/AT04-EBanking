@@ -32,12 +32,12 @@ jobs:
         if: always()
         uses: simple-elf/allure-report-action@v1.7
         with:
-            allure_results_dir: target/allure-results
-            install_allure: true
+            allure_results: target/allure-results
       - name: 6. Publish Allure Report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
+          publish_dir: allure-history
           keep_files: true
