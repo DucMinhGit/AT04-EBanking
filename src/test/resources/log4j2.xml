@@ -2,8 +2,9 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%X{browser}]  [%X{testName}] - %msg%n"/>
         </Console>
+<!--        [%t] [%X{sessionId}] %-5level %logger{36} -->
     </Appenders>
     <Loggers>
         <Root level="info">
