@@ -1,8 +1,10 @@
 package utils;
 
 import com.google.gson.reflect.TypeToken;
+import models.ExternalTransferModel;
 import org.testng.annotations.DataProvider;
-import data.ExternalTransferData;
+import testdata.ValidationTestCase;
+
 import java.util.List;
 
 public class DataProviders {
@@ -13,15 +15,15 @@ public class DataProviders {
     public static Object[][] getExternalTransferData() {
         return JsonUtils.getDataAsObjectArray(
                 TRANSFER_FILE,
-                new TypeToken<List<ExternalTransferData>>() {}
+                new TypeToken<List<ExternalTransferModel>>() {}
         );
     }
 
-    @DataProvider(name = "externalTransferErrorDataFromJson")
+    @DataProvider(name = "externalTransferErrorDataFromJson", parallel = true)
     public static Object[][] getExternalTransferErrorData() {
         return JsonUtils.getDataAsObjectArray(
                 TRANSFER_ERROR_FILE,
-                new TypeToken<List<ExternalTransferData>>() {} // Vẫn dùng cùng Data Class
+                new TypeToken<List<ValidationTestCase>>() {}
         );
     }
 }

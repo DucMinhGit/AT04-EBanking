@@ -4,7 +4,6 @@ import utils.Driver;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.components.FooterComponent;
@@ -32,13 +31,11 @@ public abstract class BasePage {
     }
 
     protected void type(By locator, String text) {
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        element.clear();
-        element.sendKeys(text);
+        Driver.getDriver().findElement(locator).sendKeys(text);
     }
 
     protected String getVisibleText(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
+        return Driver.getDriver().findElement(locator).getText();
     }
 
     protected void waitForVisible(By locator) {
