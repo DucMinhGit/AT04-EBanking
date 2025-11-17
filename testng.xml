@@ -4,7 +4,7 @@
 <suite name="EBanking Test Suite" parallel="tests" thread-count="2">
 
     <listeners>
-<!--        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>-->
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
         <listener class-name="utils.AllureListener"/>
     </listeners>
 
