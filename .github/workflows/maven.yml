@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: ["master", "develop"]
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   run_tests:
     runs-on: ubuntu-latest
@@ -41,3 +46,5 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
           keep_files: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
