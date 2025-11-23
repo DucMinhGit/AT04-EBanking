@@ -3,7 +3,7 @@ package tests.ExternalTransferTests;
 import base.TestBase;
 import com.mailosaur.MailosaurException;
 import lombok.extern.log4j.Log4j2;
-import models.ExternalTransferModel;
+import models.ExternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -25,8 +25,8 @@ public class EXT09 extends TestBase {
     AccountHistoryPage accountHistoryPage;
     AccountDetailPage accountDetailPage;
 
-    ExternalTransferModel data;
-    ExternalTransferModel previewData;
+    ExternalTransfer data;
+    ExternalTransfer previewData;
     String otp;
     String successMessage;
     double actualTransactionAmount;
@@ -62,7 +62,7 @@ public class EXT09 extends TestBase {
         maxTransferable = currentBalance - fee;
         transferAmount = Math.ceil(Math.random() * maxTransferable);
 
-        data = ExternalTransferModel.builder()
+        data = ExternalTransfer.builder()
 //                .fromAccountValue(this.currentDepositAcctAnyTerm)
                 .receiverAccount("10001111")
                 .receiverName("Nguyen Van A")

@@ -13,6 +13,11 @@ public class HomePage extends BasePage {
         driver.findElement(bankAccountLink).click();
     }
 
+    public void clickTransfer() {
+        log.info("Clicking 'Transfer' link in side menu");
+        driver.findElement(transferLink).click();
+    }
+
     @Step("Navigate to 'Tạo tài khoản'")
     public void clickCreateAccount() {
         log.info("Clicking 'Open Account' link");

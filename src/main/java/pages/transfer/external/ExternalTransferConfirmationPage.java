@@ -2,7 +2,7 @@ package pages.transfer.external;
 
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
-import models.ExternalTransferModel;
+import models.ExternalTransfer;
 import org.openqa.selenium.By;
 import pages.BasePage;
 
@@ -13,11 +13,11 @@ public class ExternalTransferConfirmationPage extends BasePage {
     }
 
     @Step("Get data for verify (Preview Data)")
-    public ExternalTransferModel getConfirmationDetailsAsModel() {
+    public ExternalTransfer getConfirmationDetailsAsModel() {
         log.info("Waiting read data from confirm page transfer and create model TransferDetails...");
         String rawAmount = getVisibleText(amountLabel).trim();
         String parsedAmount = rawAmount.replaceAll("[^0-9]", "");
-        return ExternalTransferModel.builder()
+        return ExternalTransfer.builder()
                 .receiverAccount(getVisibleText(receiverAccountLabel).trim())
                 .amount(Double.parseDouble(parsedAmount))
                 .content(getVisibleText(contentLabel).trim())

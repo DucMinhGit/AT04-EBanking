@@ -1,7 +1,7 @@
 package utils;
 
 import com.google.gson.reflect.TypeToken;
-import models.ExternalTransferModel;
+import models.ExternalTransfer;
 import org.testng.annotations.DataProvider;
 import testdata.ValidationTestCase;
 
@@ -15,7 +15,7 @@ public class DataProviders {
     public static Object[][] getExternalTransferData() {
         return JsonUtils.getDataAsObjectArray(
                 TRANSFER_FILE,
-                new TypeToken<List<ExternalTransferModel>>() {}
+                new TypeToken<List<ExternalTransfer>>() {}
         );
     }
 

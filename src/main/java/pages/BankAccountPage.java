@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Driver;
 
 import java.util.List;
@@ -59,10 +60,20 @@ public class BankAccountPage extends BasePage {
         click(accountLink);
     }
 
+    public String getSuccessMessage() {
+        wait.until(ExpectedConditions.not(
+                ExpectedConditions.textToBe(successMessageText, "")
+        ));
+        String message = getVisibleText(successMessageText);
+        log.info("Result: {}", message);
+        return message;
+    }
+
     private final By accountTableBody = By.id("j_idt27_data");
     private final By closeButton = By.className("ui-icon-closethick");
     private final By lastestAccountNumberLink = By.xpath("//div[(@id='j_idt25_content')] //div[(@id='j_idt27')]  //tr[last()]//td[1]//a");
     private final By latestTransactionAmount = By.xpath("//tbody[@id='j_idt37_data']/tr[1]/td[3]");
     private final By latestTransactionDate = By.xpath("//tbody[@id='j_idt37_data']/tr[1]/td[1]");
     private final By headerTable = By.xpath("//div[@id='j_idt27']//table/thead//th");
+    private final By successMessageText = By.cssSelector("#primefacesmessagedlg .ui-dialog-content");
 }

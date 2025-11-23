@@ -2,7 +2,7 @@ package pages.transfer.external;
 
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
-import models.ExternalTransferModel;
+import models.ExternalTransfer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,14 +11,14 @@ import pages.BasePage;
 @Log4j2
 public class ExternalTransferPage extends BasePage {
 
-    public void submitForm(ExternalTransferModel data) {
+    public void submitForm(ExternalTransfer data) {
         selectAccount(data.getFromAccountValue());
         fillFormDetails(data);
         clickSubmit();
     }
 
     @Step("Fill data and submit form transfer")
-    public void fillFormDetails(ExternalTransferModel data)
+    public void fillFormDetails(ExternalTransfer data)
     {
         enterReceiverAccount(data.getReceiverAccount());
 

@@ -1,20 +1,17 @@
 package models;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExternalTransferModel {
+public class InternalTransfer {
     private String fromAccountValue;
     private String receiverAccount;
-    private String receiverName;
-    private String bankValue;
-    private String branchValue;
     private String content;
-    private double amount;
+    private Double amount;
 }

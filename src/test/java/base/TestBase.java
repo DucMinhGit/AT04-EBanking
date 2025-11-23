@@ -20,6 +20,7 @@ public class TestBase {
 
     protected String baseURL = Constants.BASE_URL;
     protected String currentDepositAcctAnyTerm;
+    protected String currentSavingAccount;
     protected LoginPage userLogin;
     protected HomePage homePage;
 
@@ -61,6 +62,7 @@ public class TestBase {
         bankPage.closeNotification();
 
         this.currentDepositAcctAnyTerm = bankPage.getAccountNumber("Tài Khoản", "last()");
+        this.currentSavingAccount = bankPage.getAccountNumber("Tài Khoản", "last() - 1");
 
         homePage.clickLogout();
 

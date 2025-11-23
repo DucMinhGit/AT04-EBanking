@@ -1,7 +1,7 @@
 package tests.ExternalTransferTests;
 
 import base.TestBase;
-import models.ExternalTransferModel;
+import models.ExternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -13,7 +13,7 @@ public class EXT05 extends TestBase {
     String password = Constants.DEFAULT_PASSWORD;
 
     ExternalTransferPage externalTransferPage;
-    ExternalTransferModel data;
+    ExternalTransfer data;
 
     @BeforeMethod
     public void init() {
@@ -22,14 +22,14 @@ public class EXT05 extends TestBase {
 
     @Test
     public void EXT05() {
-        data = ExternalTransferModel.builder()
+        data = ExternalTransfer.builder()
                 .fromAccountValue("100001440")
                 .receiverAccount("10001111")
                 .receiverName("Nguyen Van A")
                 .bankValue("Ngân hàng Đông Á")
                 .branchValue("")
                 .content("Test case 3: Bo trong ten nguoi nhan")
-                .amount(50000)
+                .amount(50000.0)
                 .build();
 
         String expectedErrorMessage = "Mời chọn chi nhánh";

@@ -3,7 +3,7 @@ package tests.ExternalTransferTests;
 import base.TestBase;
 import com.github.javafaker.Faker;
 import com.mailosaur.MailosaurException;
-import models.ExternalTransferModel;
+import models.ExternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -22,7 +22,7 @@ public class EXT08 extends TestBase {
     ExternalTransferConfirmationPage confirmationPage;
     ExternalTransferOtpPage otpPage;
 
-    ExternalTransferModel data;
+    ExternalTransfer data;
     String otp;
     String wrongOtp;
     String actualErrorMessage;
@@ -54,7 +54,7 @@ public class EXT08 extends TestBase {
         maxTransferable = currentBalance - fee;
         transferAmount = Math.ceil(Math.random() * maxTransferable);
 
-        data = ExternalTransferModel.builder()
+        data = ExternalTransfer.builder()
 //                .fromAccountValue(this.currentDepositAcctAnyTerm)
                 .receiverAccount("10001111")
                 .receiverName("Nguyen Van A")
