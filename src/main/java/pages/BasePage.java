@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.WebElement;
 import utils.Driver;
 import lombok.Getter;
 import org.openqa.selenium.By;
@@ -21,13 +22,12 @@ public abstract class BasePage {
     public BasePage() {
         this.driver = Driver.getDriver();
         this.wait = Driver.getWebDriverWait();
-
         this.header = new HeaderComponent(this.driver, this.wait);
         this.footer = new FooterComponent(this.driver, this.wait);
     }
 
     protected void click(By locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+        Driver.getDriver().findElement(locator).click();
     }
 
     protected void type(By locator, String text) {
@@ -40,5 +40,17 @@ public abstract class BasePage {
 
     protected void waitForVisible(By locator) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    protected void selectDropdown(By dropdownLocator, By optionLocator) {
+        click(dropdownLocator);
+        waitForVisible(optionLocator);
+        click(optionLocator);
+    }
+
+    protected void selectDropdownByText(By dropdownLocator, String text) {
+        click(dropdownLocator);
+        By optionLocator = By.xpath("//li[contains(text(), '" + text + "')]");
+        click(optionLocator);
     }
 }

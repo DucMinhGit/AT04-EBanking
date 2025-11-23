@@ -17,6 +17,7 @@ public class LoginPage extends BasePage {
     @Step("1. Enter Username: {username}")
     public void enterUsername(String username) {
         log.info("Entering username: {}", username);
+        waitForVisible(usernameInput);
         type(usernameInput, username);
     }
 

@@ -17,10 +17,9 @@ public class ExternalTransferConfirmationPage extends BasePage {
         log.info("Waiting read data from confirm page transfer and create model TransferDetails...");
         String rawAmount = getVisibleText(amountLabel).trim();
         String parsedAmount = rawAmount.replaceAll("[^0-9]", "");
-
         return ExternalTransferModel.builder()
                 .receiverAccount(getVisibleText(receiverAccountLabel).trim())
-                .amount(parsedAmount)
+                .amount(Double.parseDouble(parsedAmount))
                 .content(getVisibleText(contentLabel).trim())
                 .receiverName(getVisibleText(receiverNameLabel).trim())
                 .build();
@@ -29,10 +28,11 @@ public class ExternalTransferConfirmationPage extends BasePage {
     @Step("Click 'Xac nhan' and open OTP page")
     public void clickConfirm() {
         log.info("Click confirm button...");
+        waitForVisible(confirmButton);
         click(confirmButton);
     }
 
-    private final By confirmButton = By.cssSelector("input[name$=':j_idt44']");
+    private final By confirmButton = By.name("j_idt23:j_idt44");
     private final String tableBodyXPath = "//input[contains(@name, ':j_idt44')]/ancestor::tbody[1]";
     private final By receiverAccountLabel = By.xpath(tableBodyXPath + "/tr[3]/td[2]/label");
     private final By amountLabel = By.xpath(tableBodyXPath + "/tr[4]/td[2]/label");

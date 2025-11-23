@@ -21,6 +21,11 @@ public class ExternalTransferResultPage extends BasePage {
         return message;
     }
 
+    public void closeNotification() {
+        click(closeButton);
+    }
+
     private final By successDialog = By.id("primefacesmessagedlg");
     private final By successMessageText = By.cssSelector("#primefacesmessagedlg .ui-dialog-content");
+    private final By closeButton = By.className("ui-icon-closethick");
 }

@@ -4,10 +4,10 @@
     "fromAccountValue": "100001440",
     "receiverAccount": "10001111",
     "receiverName": "NGUYEN VAN A",
-    "bankValue": "100001",
-    "branchValue": "1",
+    "bankValue": "Ngân hàng Đông Á",
+    "branchValue": "Chi nhánh Đà Nẵng",
     "content": "Test case 1: Bo trong TK nguon",
-    "amount": "1000",
+    "amount": 1000,
     "expectedErrorMessage": "Chuyển tiền thành công"
   }
 ]

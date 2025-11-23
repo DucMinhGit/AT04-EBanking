@@ -7,37 +7,17 @@ import com.mailosaur.models.MessageSearchParams;
 import com.mailosaur.models.SearchCriteria;
 import lombok.extern.log4j.Log4j2;
 
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Log4j2
 public class MailosaurUtil {
-
-    private static MailosaurClient mailosaurClient;
-    private static String serverId;
-    private static Properties config = new Properties();
-
-    static {
-        try {
-            config.load(new FileReader("src/test/resources/config.properties"));
-            String apiKey = config.getProperty("mailosaur.api.key");
-            serverId = config.getProperty("mailosaur.server.id");
-
-            if (apiKey == null || serverId == null) {
-                throw new RuntimeException("Mailosaur API Key or Server ID can not config in config.properties");
-            }
-            mailosaurClient = new MailosaurClient(apiKey);
-        } catch (IOException e) {
-            throw new RuntimeException("Can not read file config.properties", e);
-        }
-    }
+    private static MailosaurClient mailosaurClient = new MailosaurClient(Constants.MAILOSAUR_API_KEY);
 
     public static String getOtp(String emailAddress, long searchSince) throws IOException, MailosaurException {
         MessageSearchParams params = new MessageSearchParams();
-        params.withServer(serverId);
+        params.withServer(Constants.MAILOSAUR_SERVER_ID);
 
         params.withReceivedAfter(searchSince);
 

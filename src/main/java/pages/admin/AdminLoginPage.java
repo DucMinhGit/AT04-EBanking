@@ -1,0 +1,22 @@
+package pages.admin;
+
+import io.qameta.allure.Step;
+import lombok.extern.log4j.Log4j2;
+import org.openqa.selenium.By;
+import pages.BasePage;
+
+@Log4j2
+public class AdminLoginPage extends BasePage {
+    @Step("Admin Login với User: {userId}")
+    public void login(String userId, String password) {
+        log.info("Admin login start: {}", userId);
+        driver.get("http://14.176.232.213:8080/EBankingWebsite/faces/admin/Login.xhtml");
+        type(userIdInput, userId);
+        type(passwordInput, password);
+        click(loginBtn);
+    }
+
+    private final By userIdInput = By.id("j_idt9:id1");
+    private final By passwordInput = By.id("j_idt9:pwd1");
+    private final By loginBtn = By.id("j_idt9:j_idt15");
+}

@@ -4,13 +4,13 @@
 <suite name="EBanking Test Suite" parallel="tests" thread-count="2">
 
     <listeners>
-        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+<!--        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>-->
         <listener class-name="utils.AllureListener"/>
     </listeners>
 
     <test name="All Transfer Tests">
         <classes>
-            <class name="tests.ExternalTransferTests" />
+            <class name="tests.ExternalTransferTests.EXT01" />
         </classes>
     </test>
 

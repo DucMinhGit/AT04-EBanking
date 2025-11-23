@@ -18,6 +18,11 @@ public class SideMenuComponent {
         driver.findElement(transferLink).click();
     }
 
+    public void clickBankAccount() {
+        log.info("Clicking 'Bank Account' link in side menu");
+        driver.findElement(bankAccountLink).click();
+    }
+
     public void clickExternalTransfer() {
         log.info("Click 'Lien Ngan Hang' link in side menu");
         driver.findElement(externalTransferLink).click();
@@ -33,6 +38,11 @@ public class SideMenuComponent {
         driver.findElement(logoutLink).click();
     }
 
+    public void clickCreateAccount() {
+        log.info("Clicking 'Open Account' link");
+        driver.findElement(createAccountLink).click();
+    }
+
     protected WebDriver driver;
     protected WebDriverWait wait;
 
@@ -40,4 +50,6 @@ public class SideMenuComponent {
     private final By externalTransferLink = By.xpath("//div[contains(@class, 'ui-menu')]//ul[contains(@class, 'ui-menu-list')]/li[@role='menuitem'][7]/a");
     private final By transactionHistoryLink = By.xpath("//div[contains(@class, 'ui-menu')]//ul[contains(@class, 'ui-menu-list')]/li[@role='menuitem'][5]/a");
     private final By logoutLink = By.xpath("//div[contains(@class, 'ui-menu')]//ul/li[last()]/a");
+    private final By createAccountLink = By.xpath("//div[contains(@class, 'ui-menu')]//ul[contains(@class, 'ui-menu-list')]/li[@role='menuitem'][3]/a");
+    private final By bankAccountLink = By.xpath("//div[contains(@class, 'ui-menu')]//ul[contains(@class, 'ui-menu-list')]/li[@role='menuitem'][2]/a");
 }

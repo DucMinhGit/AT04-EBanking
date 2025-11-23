@@ -1,98 +1,79 @@
 package base;
 
-import utils.Driver;
-import org.openqa.selenium.WebDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.testng.ITestResult;
+import pages.*;
+import pages.admin.AdminDepositPage;
+import pages.admin.AdminLoginPage;
+import utils.BrowserFactory;
+import utils.Constants;
+import utils.Driver;
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import lombok.extern.log4j.Log4j2;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Optional;
-import org.slf4j.MDC;
-import java.io.FileReader;
-import java.util.Properties;
-import java.util.UUID;
 
 @Log4j2
 public class TestBase {
-    protected Properties config = new Properties();
-    protected String baseURL;
+    WebDriver driver;
 
-    public TestBase() {
-        try {
-            config.load(new FileReader("src/test/resources/config.properties"));
-            baseURL = config.getProperty("base.url");
-        } catch (Exception e) {
-            log.error("Can not read file config.properties", e);
-        }
-    }
+    protected String baseURL = Constants.BASE_URL;
+    protected String currentDepositAcctAnyTerm;
+    protected LoginPage userLogin;
+    protected HomePage homePage;
 
-    @Parameters("browser")
+    protected BankAccountPage bankPage;
+    protected CreateAccountPage createPage;
+    protected AdminLoginPage adminLogin;
+    protected AdminDepositPage adminDeposit;
+    protected AccountDetailPage accountDetailPage;
+
     @BeforeMethod
-    public void setUp(@Optional("chrome") String browser, ITestResult result) {
-        String sessionId = UUID.randomUUID().toString().substring(0, 8);
-        MDC.put("sessionId", sessionId);
-        MDC.put("browser", browser);
-        MDC.put("testName", result.getMethod().getMethodName());
-
-        log.info("===== START TEST CASE: {} =====", result.getMethod().getMethodName());
-        log.info("Session [{}] - Browser [{}]", sessionId, browser);
-
-        WebDriver driver;
-
-        boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));
-        if (isHeadless) {
-            log.warn("The browser is running in headless mode.");
-        }
-
-        if (browser.equalsIgnoreCase("chrome")) {
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--no-sandbox", "--disable-dev-shm-usage", "--guest");
-            if (isHeadless) {
-                options.addArguments("--headless=new", "--disable-gpu", "--window-size=1920,1080", "--start-maximized");
-            }
-            driver = new ChromeDriver(options);
-        } else if (browser.equalsIgnoreCase("firefox")) {
-            FirefoxOptions options = new FirefoxOptions();
-            if (isHeadless) options.addArguments("--headless");
-            driver = new FirefoxDriver(options);
-        } else if (browser.equalsIgnoreCase("edge")) {
-            EdgeOptions options = new EdgeOptions();
-            if (isHeadless) options.addArguments("--headless", "--disable-gpu");
-            driver = new EdgeDriver(options);
-        } else {
-            throw new IllegalArgumentException("Not found Browser: " + browser);
-        }
-
+    public void setUp() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--no-sandbox", "--disable-dev-shm-usage", "--guest");
+        driver = new ChromeDriver(chromeOptions);
         Driver.setDriver(driver);
 
-        log.info("Launching the browser and accessing the URL: {}", baseURL);
+        Driver.getDriver().get(baseURL);
+
+        userLogin = new LoginPage();
+        homePage = new HomePage();
+
+        bankPage = new BankAccountPage();
+        createPage = new CreateAccountPage();
+        adminLogin = new AdminLoginPage();
+        adminDeposit = new AdminDepositPage();
+        accountDetailPage = new AccountDetailPage();
+    }
+
+    @Step("PRECONDITION: Create Accounts & Deposit Money")
+    protected void prepareAccountData(String username, String password, double amount) {
+        userLogin.login(username, password);
+
+        homePage.clickCreateAccount();
+        createPage.createSavingAccount();
+        bankPage.closeNotification();
+
+        homePage.clickCreateAccount();
+        createPage.createDepositAcctAnyTerm();
+        bankPage.closeNotification();
+
+        this.currentDepositAcctAnyTerm = bankPage.getAccountNumber("Tài Khoản", "last()");
+
+        homePage.clickLogout();
+
+        adminLogin.login("1", "admin");
+        adminDeposit.goToDepositPage();
+        adminDeposit.depositMoney(this.currentDepositAcctAnyTerm, amount, "Cap tien test tu dong");
+        adminDeposit.logout();
+
         Driver.getDriver().get(baseURL);
     }
 
     @AfterMethod
-    public void tearDown(ITestResult result) {
-        log.info("CLOSE BROWSER!!!");
+    public void tearDown() {
         Driver.getDriver().quit();
-
-        String testName = MDC.get("testName");
-        String status;
-        if (result.getStatus() == ITestResult.SUCCESS) {
-            status = "PASS";
-        } else if (result.getStatus() == ITestResult.FAILURE) {
-            status = "FAIL";
-        } else {
-            status = "SKIP";
-        }
-
-        log.info("===== TEST CASE FINISHED: {} ({}) =====", testName, status);
-
-        MDC.clear();
     }
 }

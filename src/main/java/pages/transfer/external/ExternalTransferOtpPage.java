@@ -6,6 +6,8 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import pages.BasePage;
 import utils.MailosaurUtil;
+import utils.Constants;
+
 import java.io.IOException;
 
 @Log4j2
@@ -14,15 +16,16 @@ public class ExternalTransferOtpPage extends BasePage {
         super();
     }
 
-    @Step("Get OTP from Email ({emailAddress}) and send to complete transfer")
-    public void submitOtpFromEmail(String emailAddress, long receivedAfter)
+    @Step("Get OTP from Email")
+    public String getOtpFromEmail()
             throws IOException, MailosaurException {
 
         log.info("get otp from Mailosaur service to get OTP...");
-        String otp = MailosaurUtil.getOtp(emailAddress, receivedAfter);
 
-        log.info("Received OTP, enter otp code and submit.");
-        submitOtp(otp);
+        long receivedAfter = System.currentTimeMillis();
+        String emailAddress = Constants.OTP_RECEIVER_EMAIL;
+
+        return MailosaurUtil.getOtp(emailAddress, receivedAfter);
     }
 
     @Step("Enter OTP code ({otp}) and click send")

@@ -16,5 +16,5 @@ public class ExternalTransferModel {
     private String bankValue;
     private String branchValue;
     private String content;
-    private String amount;
+    private double amount;
 }
