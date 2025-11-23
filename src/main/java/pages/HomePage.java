@@ -3,38 +3,37 @@ package pages;
 import Utils.Driver;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.Internal_Transfer.InternalTransferPage;
 
 @Log4j2
 public class HomePage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
+    // Locator
+    private final By transferTabBy = By.xpath("//a[@href='/EBankingWebsite/faces/transfer.xhtml']");
+    private final By createAccountTabBy = By.xpath("//a[@href='/EBankingWebsite/faces/createaccount.xhtml']");
 
-    private final By transferLink = By.xpath("//a[@href='/EBankingWebsite/faces/transfer.xhtml']//span[@class='ui-menuitem-text']");
-
-    private final By transactionHistoryLink = By.xpath("//span[text()='Nhật kí giao dịch']/ancestor::a");
-
-    private final By logoutLink = By.xpath("//span[text()='Đăng xuất']/ancestor::a");
-    public HomePage() {
-        this.driver = Driver.getDriver();
-        this.wait = Driver.getWebDriverWait();
-    }
-    public void waitForPageLoad() {
-        log.info("Waitting (Homepage) dowloaded...");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(logoutLink));
-        log.info("Homepage successfuly.");
+    // Click tab "Chuyển khoản"
+    public InternalTransferPage clickTransferTab() {
+        WebElement element = Driver.getWebDriverWait().until(ExpectedConditions.elementToBeClickable(transferTabBy));
+        element.click();
+        log.info("Clicked 'Chuyển khoản' tab successfully.");
+        return new InternalTransferPage();
     }
 
-    public void clickTransfer() {
-        log.info("Enter 'Bank'");
-        wait.until(ExpectedConditions.elementToBeClickable(transferLink)).click();
+    // Click tab "Mở tài khoản"
+    public void clickCreateAccountTab() {
+        WebElement element = Driver.getWebDriverWait().until(ExpectedConditions.elementToBeClickable(createAccountTabBy));
+        element.click();
+        log.info("Clicked 'Mở tài khoản' tab successfully.");
     }
 
-    public void clickTransactionHistory() {
-        log.info("Enter'history transaction'");
-        wait.until(ExpectedConditions.elementToBeClickable(transactionHistoryLink)).click();
+    private By logoutButton = By.xpath("//span[text()='Đăng xuất']/parent::a");
+
+    public void clickLogout() {
+        WebDriverWait w = Driver.getWebDriverWait();
+        w.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
     }
 }

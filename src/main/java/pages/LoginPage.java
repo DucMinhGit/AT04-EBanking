@@ -3,52 +3,43 @@ package pages;
 import Utils.Driver;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 @Log4j2
 public class LoginPage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
+    // Locator
+    private final By usernameBy = By.name("j_idt10:j_idt12");
+    private final By passwordBy = By.name("j_idt10:j_idt14");
+    private final By loginBtnBy = By.name("j_idt10:j_idt16");
 
-    private final By usernameInput = By.xpath("//input[@type='text' and @class='contact_filed']");
-    private final By passwordInput = By.xpath("//input[@type='password' and @class='contact_filed']");
-    private final By loginButton = By.xpath("//form[contains(@action, 'index.xhtml')]//input[@type='submit']");
-
-    private final By errorMessageText = By.cssSelector("div.ui-growl-message > p");
-
-    public LoginPage() {
-        this.driver = Driver.getDriver();
-        this.wait = Driver.getWebDriverWait();
-    }
-
-    public void enterUsername(String username) {
-        log.info("Enter username: {}", username);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(usernameInput)).sendKeys(username);
-    }
-
-    public void enterPassword(String password) {
-        log.info("Enter password: ***");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordInput)).sendKeys(password);
-    }
-
-    public void clickLoginButton() {
-        log.info("Click Login Btn");
-        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
-    }
-
-    public HomePage login(String username, String password) {
+    // Returns HomePage after successful login
+    public HomePage login (String username, String password) {
         enterUsername(username);
         enterPassword(password);
-        clickLoginButton();
+        clickLogin();
+        log.info("Login account successfully.");
         return new HomePage();
     }
 
-    public String getErrorMessage() {
-        String message = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessageText)).getText();
-        log.warn("Lấy được thông báo lỗi: {}", message);
-        return message;
+    // Enter Username
+    public void enterUsername(String username) {
+        WebElement el = Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(usernameBy));
+        el.clear();
+        el.sendKeys(username);
+    }
+
+    // Enter Password
+    public void enterPassword(String password) {
+        WebElement el = Driver.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(passwordBy));
+        el.clear();
+        el.sendKeys(password);
+    }
+
+    // Click Login
+    public void clickLogin() {
+        WebElement btn = Driver.getWebDriverWait().until(ExpectedConditions.elementToBeClickable(loginBtnBy));
+        btn.click();
     }
 }
