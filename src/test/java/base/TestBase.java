@@ -84,16 +84,17 @@ public class TestBase {
         log.info("Launching the browser and accessing the URL.");
         Driver.getDriver().get(baseURL);
 
-        log.info("Starting automatic login execution...");
-        LoginPage loginPage = new LoginPage();
-
-        this.homePage = loginPage.login(
-                config.getProperty("default.username"),
-                config.getProperty("default.password")
-        );
-
-        this.homePage.waitForPageLoad();
-        log.info("Login successfully!!!");
+//  Conflict với việc INT01 đã tự Login
+//        log.info("Starting automatic login execution...");
+//        LoginPage loginPage = new LoginPage();
+//
+//        this.homePage = loginPage.login(
+//                config.getProperty("default.username"),
+//                config.getProperty("default.password")
+//        );
+//
+//        this.homePage.waitForPageLoad();
+//        log.info("Login successfully!!!");
     }
 
     @AfterMethod
