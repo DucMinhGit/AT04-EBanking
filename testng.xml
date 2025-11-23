@@ -5,21 +5,20 @@
 
     <listeners>
 <!--        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>-->
-        <listener class-name="Utils.AllureListener"/>
+        <listener class-name="utils.AllureListener"/>
     </listeners>
 
-    <test name="Chrome Tests">
-        <parameter name="browser" value="chrome"/>
+    <test name="All Transfer Tests">
         <classes>
-            <class name="tests.TransferTest"/>
+            <class name="tests.ExternalTransferTests.EXT01" />
         </classes>
     </test>
 
-    <test name="Firefox Tests">
-        <parameter name="browser" value="firefox"/>
-        <classes>
-            <class name="tests.TransferTest"/>
-        </classes>
-    </test>
+<!--    <test name="Firefox Tests">-->
+<!--        <parameter name="browser" value="firefox"/>-->
+<!--        <classes>-->
+<!--            <class name="tests.ExternalTransferTests"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 
 </suite>
