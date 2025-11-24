@@ -1,5 +1,7 @@
 package tests.InternalTransferTests;
 
+import datafactory.AccountFactory;
+import datafactory.InternalTransferFactory;
 import models.ExternalTransfer;
 import models.InternalTransfer;
 import org.testng.Assert;
@@ -12,13 +14,11 @@ import pages.LoginPage;
 import pages.HomePage;
 //import pages.AccountListingPage;
 import pages.transfer.internal.InternalTransferPage;
+import utils.Messages;
 
 import java.math.BigDecimal;
 
 public class INT03 extends TestBase {
-    String username = Constants.DEFAULT_USERNAME;
-    String password = Constants.DEFAULT_PASSWORD;
-
     InternalTransferPage internalTransferPage;
     InternalTransfer data;
 
@@ -29,20 +29,15 @@ public class INT03 extends TestBase {
 
     @Test
     public void INT03() {
-        data = InternalTransfer.builder()
-                .fromAccountValue("100001440")
-                .receiverAccount("")
-                .content("valid")
-                .amount(5000.0)
-                .build();
+        userLoginPage.login(AccountFactory.userDefault());
 
-        String expectedErrorMessage = "Tài khoản không hợp lệ, quý khách vui lòng kiểm tra lại.";
+        homePage.goToInternalTransferPage();
 
-        userLogin.login(username, password);
-        homePage.clickTransfer();
+        data = InternalTransferFactory.initData();
+        data.setReceiverAccount("");
+
         internalTransferPage.submitForm(data);
 
-        String actualErrorMessage = internalTransferPage.getGeneralErrorMessage();
-        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+        Assert.assertEquals(internalTransferPage.getGeneralErrorMessage(), Messages.INVALID_ACCOUNT);
     }
 }

@@ -8,18 +8,18 @@ import pages.components.SideMenuComponent;
 
 @Log4j2
 public class HomePage extends BasePage {
-    public void clickBankAccount() {
+    public void goToBankAccountPage() {
         log.info("Clicking 'Bank Account' link in side menu");
         driver.findElement(bankAccountLink).click();
     }
 
-    public void clickTransfer() {
+    public void goToInternalTransferPage() {
         log.info("Clicking 'Transfer' link in side menu");
         driver.findElement(transferLink).click();
     }
 
     @Step("Navigate to 'Tạo tài khoản'")
-    public void clickCreateAccount() {
+    public void goToCreateAccountPage() {
         log.info("Clicking 'Open Account' link");
         driver.findElement(createAccountLink).click();
     }
@@ -27,6 +27,7 @@ public class HomePage extends BasePage {
     @Step("Navigate to 'Liên Ngân Hàng'")
     public void clickExternalTransfer() {
         log.info("Click 'Lien Ngan Hang' link in side menu");
+        waitForVisible(externalTransferLink);
         driver.findElement(externalTransferLink).click();
     }
 

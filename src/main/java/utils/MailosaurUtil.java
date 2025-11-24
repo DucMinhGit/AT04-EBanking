@@ -13,11 +13,11 @@ import java.util.regex.Pattern;
 
 @Log4j2
 public class MailosaurUtil {
-    private static MailosaurClient mailosaurClient = new MailosaurClient(Constants.MAILOSAUR_API_KEY);
+    private static MailosaurClient mailosaurClient = new MailosaurClient(Configs.MAILOSAUR_API_KEY);
 
     public static String getOtp(String emailAddress, long searchSince) throws IOException, MailosaurException {
         MessageSearchParams params = new MessageSearchParams();
-        params.withServer(Constants.MAILOSAUR_SERVER_ID);
+        params.withServer(Configs.MAILOSAUR_SERVER_ID);
 
         params.withReceivedAfter(searchSince);
 

@@ -1,24 +1,16 @@
 package tests.InternalTransferTests;
 
-import models.ExternalTransfer;
+import datafactory.AccountFactory;
+import datafactory.InternalTransferFactory;
 import models.InternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import pages.transfer.external.ExternalTransferPage;
-import utils.Constants;
-import utils.Driver;
 import base.TestBase;
 import org.testng.annotations.Test;
-import pages.LoginPage;
-import pages.HomePage;
 import pages.transfer.internal.InternalTransferPage;
-
-import java.math.BigDecimal;
+import utils.Messages;
 
 public class INT02 extends TestBase {
-    String username = Constants.DEFAULT_USERNAME;
-    String password = Constants.DEFAULT_PASSWORD;
-
     InternalTransferPage internalTransferPage;
     InternalTransfer data;
 
@@ -29,20 +21,15 @@ public class INT02 extends TestBase {
 
     @Test
     public void INT02() {
-        data = InternalTransfer.builder()
-                .fromAccountValue("")
-                .receiverAccount("100001457")
-                .content("valid")
-                .amount(50000.0)
-                .build();
+        userLoginPage.login(AccountFactory.userDefault());
 
-        String expectedErrorMessage = "Mời chọn tài khoản";
+        homePage.goToInternalTransferPage();
 
-        userLogin.login(username, password);
-        homePage.clickTransfer();
+        data = InternalTransferFactory.initData();
+        data.setFromAccountValue("");
+
         internalTransferPage.submitForm(data);
 
-        String actualErrorMessage = internalTransferPage.getGeneralErrorMessage();
-        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+        Assert.assertEquals(internalTransferPage.getGeneralErrorMessage(), Messages.PLEASE_CHOOSE_AN_ACCOUNT);
     }
 }

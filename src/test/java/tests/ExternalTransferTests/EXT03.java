@@ -1,17 +1,17 @@
 package tests.ExternalTransferTests;
 
 import base.TestBase;
+import datafactory.AccountFactory;
+import datafactory.ExternalTransferFactory;
 import models.ExternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.transfer.external.ExternalTransferPage;
 import utils.Constants;
+import utils.Messages;
 
 public class EXT03 extends TestBase {
-    String username = Constants.DEFAULT_USERNAME;
-    String password = Constants.DEFAULT_PASSWORD;
-
     ExternalTransferPage externalTransferPage;
     ExternalTransfer data;
 
@@ -22,23 +22,15 @@ public class EXT03 extends TestBase {
 
     @Test
     public void EXT03() {
-        data = ExternalTransfer.builder()
-                .fromAccountValue("100001440")
-                .receiverAccount("10001111")
-                .receiverName("")
-                .bankValue("Ngân hàng Đông Á")
-                .branchValue("Chi nhánh Đà Nẵng")
-                .content("Test case 3: Bo trong ten nguoi nhan")
-                .amount(50000.0)
-                .build();
+        userLoginPage.login(AccountFactory.userDefault());
 
-        String expectedErrorMessage = "Nhập tên người nhận";
-
-        userLogin.login(username, password);
         homePage.clickExternalTransfer();
+
+        data = ExternalTransferFactory.initData();
+        data.setReceiverName("");
+
         externalTransferPage.submitForm(data);
 
-        String actualErrorMessage = externalTransferPage.getGeneralErrorMessage();
-        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+        Assert.assertEquals(externalTransferPage.getGeneralErrorMessage(), Messages.RECIVER_NAME_MUST_NOT_BE_EMPTY);
     }
 }

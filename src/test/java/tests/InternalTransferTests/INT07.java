@@ -1,5 +1,7 @@
 package tests.InternalTransferTests;
 
+import datafactory.AccountFactory;
+import datafactory.InternalTransferFactory;
 import models.ExternalTransfer;
 import models.InternalTransfer;
 import org.testng.Assert;
@@ -11,48 +13,42 @@ import org.testng.annotations.Test;
 import pages.LoginPage;
 import pages.HomePage;
 import pages.transfer.internal.InternalTransferPage;
+import utils.Messages;
 
 import java.math.BigDecimal;
 
 public class INT07 extends TestBase {
-    String username = Constants.DEFAULT_USERNAME;
-    String password = Constants.DEFAULT_PASSWORD;
-
     InternalTransferPage internalTransferPage;
     InternalTransfer data;
-    String expectedErrorMessage;
+
+    double currentBalance;
+    double amountToTransfer;
 
     @BeforeMethod
     public void init() {
-        prepareAccountData(username, password, 5000);
-
+        setupUserWithBalance(AccountFactory.userDefault(), Constants.STANDARD_TRANSFER_AMOUNT);
         internalTransferPage = new InternalTransferPage();
     }
 
     @Test
     public void INT07() {
-        userLogin.login(username, password);
-        homePage.clickTransfer();
+        userLoginPage.login(AccountFactory.userDefault());
+
+        homePage.goToInternalTransferPage();
+
         internalTransferPage.selectAccount(this.currentDepositAcctAnyTerm);
 
-        double balance = internalTransferPage.getAvailableBalance();
+        currentBalance = internalTransferPage.getAvailableBalance();
+        amountToTransfer = currentBalance +  1;
 
-        double amountToTransfer = balance + 1100 + 1;
-
-        data = ExternalTransfer.builder()
-//                .fromAccountValue("100001440")
-                .receiverAccount(this.currentSavingAccount)
-                .content("Test valid")
-                .amount(amountToTransfer)
-                .build();
-
+        data = InternalTransferFactory.initData();
+        data.setFromAccountValue("");
+        data.setReceiverAccount(this.currentSavingAccount);
         data.setAmount(amountToTransfer);
 
         internalTransferPage.fillFormDetails(data);
         internalTransferPage.clickSubmit();
 
-        expectedErrorMessage = "Số tiền vượt mức";
-        String actualErrorMessage = internalTransferPage.getGeneralErrorMessage();
-        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+        Assert.assertEquals(internalTransferPage.getGeneralErrorMessage(), Messages.EXCESS_AMOUNT);
     }
 }

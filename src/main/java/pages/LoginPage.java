@@ -2,15 +2,16 @@ package pages;
 
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
+import models.Account;
 import org.openqa.selenium.By;
 
 @Log4j2
 public class LoginPage extends BasePage {
     @Step("Go to login page")
-    public void login(String username, String password) {
-        log.info("Starting login process with username: {}", username);
-        enterUsername(username);
-        enterPassword(password);
+    public void login(Account account) {
+        log.info("Starting login process with username: {}", account.getUsername());
+        enterUsername(account.getUsername());
+        enterPassword(account.getPassword());
         clickLoginButton();
     }
 

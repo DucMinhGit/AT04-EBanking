@@ -1,5 +1,7 @@
 package tests.InternalTransferTests;
 
+import datafactory.AccountFactory;
+import datafactory.InternalTransferFactory;
 import models.InternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -11,11 +13,9 @@ import pages.LoginPage;
 import pages.HomePage;
 //import pages.AccountListingPage;
 import pages.transfer.internal.InternalTransferPage;
+import utils.Messages;
 
 public class INT04 extends TestBase {
-    String username = Constants.DEFAULT_USERNAME;
-    String password = Constants.DEFAULT_PASSWORD;
-
     InternalTransferPage internalTransferPage;
     InternalTransfer data;
 
@@ -26,20 +26,15 @@ public class INT04 extends TestBase {
 
     @Test
     public void INT04() {
-        data = InternalTransfer.builder()
-                .fromAccountValue("100001440")
-                .receiverAccount("100001457")
-                .content("valid")
-                .amount(null)
-                .build();
+        userLoginPage.login(AccountFactory.userDefault());
 
-        String expectedErrorMessage = "Nhập nội dung";
+        homePage.goToInternalTransferPage();
 
-        userLogin.login(username, password);
-        homePage.clickTransfer();
+        data = InternalTransferFactory.initData();
+        data.setAmount(null);
+
         internalTransferPage.submitForm(data);
 
-        String actualErrorMessage = internalTransferPage.getGeneralErrorMessage();
-        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+        Assert.assertEquals(internalTransferPage.getGeneralErrorMessage(), Messages.CONTENT_MUST_NOT_BE_EMPTY);
     }
 }

@@ -1,17 +1,17 @@
 package tests.ExternalTransferTests;
 
 import base.TestBase;
+import datafactory.AccountFactory;
+import datafactory.ExternalTransferFactory;
 import models.ExternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.transfer.external.ExternalTransferPage;
 import utils.Constants;
+import utils.Messages;
 
 public class EXT06 extends TestBase {
-    String username = Constants.DEFAULT_USERNAME;
-    String password = Constants.DEFAULT_PASSWORD;
-
     ExternalTransferPage externalTransferPage;
     ExternalTransfer data;
 
@@ -22,23 +22,15 @@ public class EXT06 extends TestBase {
 
     @Test
     public void EXT06() {
-        data = ExternalTransfer.builder()
-                .fromAccountValue("100001440")
-                .receiverAccount("10001112")
-                .receiverName("Nguyen Van A")
-                .bankValue("Ngân hàng Đông Á")
-                .branchValue("Chi nhánh Đà Nẵng")
-                .content("Test case 3: Bo trong ten nguoi nhan")
-                .amount(50000.0)
-                .build();
+        userLoginPage.login(AccountFactory.userDefault());
 
-        String expectedErrorMessage = "Thông tin người hưởng không đúng";
-
-        userLogin.login(username, password);
         homePage.clickExternalTransfer();
+
+        data = ExternalTransferFactory.initData();
+        data.setReceiverAccount("100001440");
+
         externalTransferPage.submitForm(data);
 
-        String actualErrorMessage = externalTransferPage.getGeneralErrorMessage();
-        Assert.assertEquals(actualErrorMessage, expectedErrorMessage);
+        Assert.assertEquals(externalTransferPage.getGeneralErrorMessage(), Messages.INCORRECT_BENEFICIARY_INFORMATION);
     }
 }

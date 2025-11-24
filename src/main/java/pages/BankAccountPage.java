@@ -12,9 +12,8 @@ import java.util.stream.Collectors;
 
 @Log4j2
 public class BankAccountPage extends BasePage {
-    private String getCellValue(String columnName, String rowLogic) {
+    private int getColumnIndex(String columnName) {
         waitForVisible(headerTable);
-
         List<WebElement> columns = Driver.getDriver().findElements(headerTable);
 
         List<String> columnTexts = columns.stream()
@@ -25,27 +24,44 @@ public class BankAccountPage extends BasePage {
         int colIdx = columnTexts.indexOf(columnName.trim()) + 1;
 
         if (colIdx == 0) {
-            throw new RuntimeException("Column not found: " + columnName + " | Headers: " + columnTexts);
+            log.error("Not found column: '{}'. Column show is: {}", columnName, columnTexts);
+            throw new RuntimeException("Column not found: " + columnName);
+        }
+        return colIdx;
+    }
+
+    @Step("Get Newest Account Number (Max Value) for Type: {accountType}")
+    public String getNewestAccountNumber(String accountType) {
+        int typeColIdx = getColumnIndex(COL_HEADER_TYPE);
+        int targetColIdx = getColumnIndex(COL_HEADER_ACCOUNT_NO);
+
+        // XPath tìm tất cả các ô Số tài khoản (target)
+        // Mà tại dòng đó, cột Loại (type) có chứa text mong muốn
+        String xpath = String.format(
+                "//div[@id='j_idt27']//table/tbody/tr[td[%d][contains(normalize-space(), '%s')]]/td[%d]",
+                typeColIdx, accountType, targetColIdx
+        );
+
+        log.info("Scanning for accounts type '{}' to find the newest...", accountType);
+        List<WebElement> accountCells = Driver.getDriver().findElements(By.xpath(xpath));
+
+        if (accountCells.isEmpty()) {
+            throw new RuntimeException("Not found account of: " + accountType);
         }
 
-        String cellXpath = "//div[@id='j_idt27']//table/tbody/tr[" + rowLogic + "]/td[" + colIdx + "]";
+        long maxAccountNumber = accountCells.stream()
+                .map(cell -> cell.getText().trim())
+                .map(text -> Long.parseLong(text.replaceAll("[^0-9]", "")))
+                .max(Long::compare)
+                .orElse(0L);
 
-        WebElement cell = Driver.getDriver().findElement(By.xpath(cellXpath));
-        return cell.getText().trim();
-    }
-
-    @Step("Get Account Number from the list")
-    public String getAccountNumber(String columnName, String row) {
-        return getCellValue(columnName, row);
-    }
-
-    @Step("Get Account Number from the list")
-    public String getAccountNumber(String columnName, int row) {
-        return getCellValue(columnName, String.valueOf(row));
+        String result = String.valueOf(maxAccountNumber);
+        log.info("Found Newest Account: {} (Type: {})", result, accountType);
+        return result;
     }
 
     @Step("Close notification")
-    public void closeNotification() {
+    public void closeDialogMessage() {
         waitForVisible(closeButton);
         click(closeButton);
     }
@@ -53,12 +69,22 @@ public class BankAccountPage extends BasePage {
     @Step("Click on account number {accountNumber} to view details")
     public void clickDetailAccount(String accountNumber) {
         log.info("Opening detail for account: {}", accountNumber);
-        // XPath tìm thẻ <a> có text trùng với số tài khoản
         By accountLink = By.xpath("//div[@id='j_idt27']//table//tbody//tr//td//a[normalize-space(text())='" + accountNumber + "']");
 
         waitForVisible(accountLink);
         click(accountLink);
     }
+
+    @Step("Verify Latest Transaction Amount")
+    public double getLatestTransactionAmount() {
+        waitForVisible(latestTransactionRow);
+        String rawText = getVisibleText(latestAmountCell);
+
+        String cleanText = rawText.replaceAll("[^0-9.-]", "");
+
+        return Math.abs(Double.parseDouble(cleanText));
+    }
+
 
     public String getSuccessMessage() {
         wait.until(ExpectedConditions.not(
@@ -69,6 +95,9 @@ public class BankAccountPage extends BasePage {
         return message;
     }
 
+    private static final String COL_HEADER_TYPE = "Loại tài khoản";
+    private static final String COL_HEADER_ACCOUNT_NO = "Tài Khoản";
+
     private final By accountTableBody = By.id("j_idt27_data");
     private final By closeButton = By.className("ui-icon-closethick");
     private final By lastestAccountNumberLink = By.xpath("//div[(@id='j_idt25_content')] //div[(@id='j_idt27')]  //tr[last()]//td[1]//a");
@@ -76,4 +105,6 @@ public class BankAccountPage extends BasePage {
     private final By latestTransactionDate = By.xpath("//tbody[@id='j_idt37_data']/tr[1]/td[1]");
     private final By headerTable = By.xpath("//div[@id='j_idt27']//table/thead//th");
     private final By successMessageText = By.cssSelector("#primefacesmessagedlg .ui-dialog-content");
+    private final By latestTransactionRow = By.xpath("//tbody[@id='j_idt37_data']/tr[1]");
+    private final By latestAmountCell = By.xpath("//tbody[@id='j_idt37_data']/tr[1]/td[3]");
 }

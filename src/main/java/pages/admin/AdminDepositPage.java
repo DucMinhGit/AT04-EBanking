@@ -4,6 +4,7 @@ import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import pages.BasePage;
+import utils.Constants;
 
 @Log4j2
 public class AdminDepositPage extends BasePage {
@@ -16,6 +17,7 @@ public class AdminDepositPage extends BasePage {
     @Step("Admin deposit {amount} to account {accountNo}")
     public void depositMoney(String accountNo, double amount, String content) {
         log.info("Depositing {} to account {}", amount, accountNo);
+
         type(accountInput, accountNo);
         type(amountInput, String.valueOf(amount));
         type(contentInput, content);
