@@ -38,7 +38,7 @@ public class INT08 extends TestBase {
         bankAccountPage = new BankAccountPage();
     }
 
-    @Test
+    @Test(description = "Wrong OTP blocks the Internal transfer")
     public void INT08() {
         userLoginPage.login(AccountFactory.userDefault());
 

@@ -20,7 +20,7 @@ public class EXT06 extends TestBase {
         externalTransferPage = new ExternalTransferPage();
     }
 
-    @Test
+    @Test(description = "Reject transfer with invalid recipient account details")
     public void EXT06() {
         userLoginPage.login(AccountFactory.userDefault());
 

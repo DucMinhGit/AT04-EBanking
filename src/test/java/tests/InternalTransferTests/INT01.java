@@ -37,7 +37,7 @@ public class INT01 extends TestBase {
         otpPage = new OTPPage();
     }
 
-    @Test
+    @Test(description = "Successful Internal transfer")
     public void INT01() {
         userLoginPage.login(AccountFactory.userDefault());
 

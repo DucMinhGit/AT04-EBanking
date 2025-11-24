@@ -26,7 +26,7 @@ public class INT05 extends TestBase {
         internalTransferPage = new InternalTransferPage();
     }
 
-    @Test
+    @Test(description = "Show error message when 'Payment Content' fields blank")
     public void INT05() {
         userLoginPage.login(AccountFactory.userDefault());
 

@@ -43,7 +43,7 @@ public class EXT08 extends TestBase {
         faker = new Faker();
     }
 
-    @Test
+    @Test(description = "Wrong OTP blocks the External transfer")
     public void EXT08() {
         userLoginPage.login(AccountFactory.userDefault());
 

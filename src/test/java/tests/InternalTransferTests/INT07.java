@@ -30,7 +30,7 @@ public class INT07 extends TestBase {
         internalTransferPage = new InternalTransferPage();
     }
 
-    @Test
+    @Test(description = "Reject transfers with insufficient funds")
     public void INT07() {
         userLoginPage.login(AccountFactory.userDefault());
 

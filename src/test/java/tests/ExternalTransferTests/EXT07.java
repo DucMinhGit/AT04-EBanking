@@ -24,7 +24,7 @@ public class EXT07 extends TestBase {
         externalTransferPage = new ExternalTransferPage();
     }
 
-    @Test
+    @Test(description = "Reject transfers with insufficient funds")
     public void EXT07() {
         userLoginPage.login(AccountFactory.userDefault());
 

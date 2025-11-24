@@ -26,7 +26,7 @@ public class INT06 extends TestBase {
         internalTransferPage = new InternalTransferPage();
     }
 
-    @Test
+    @Test(description = "Reject transfer with invalid receive account details")
     public void INT06() {
         userLoginPage.login(AccountFactory.userDefault());
 

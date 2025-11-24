@@ -20,7 +20,7 @@ public class EXT05 extends TestBase {
         externalTransferPage = new ExternalTransferPage();
     }
 
-    @Test
+    @Test(description = "Show error message when 'Branch' fields blank")
     public void EXT05() {
         userLoginPage.login(AccountFactory.userDefault());
 

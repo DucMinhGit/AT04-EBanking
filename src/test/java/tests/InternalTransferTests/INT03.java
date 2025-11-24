@@ -27,7 +27,7 @@ public class INT03 extends TestBase {
         internalTransferPage = new InternalTransferPage();
     }
 
-    @Test
+    @Test(description = "Show error message when 'Receive Account' fields blank")
     public void INT03() {
         userLoginPage.login(AccountFactory.userDefault());
 

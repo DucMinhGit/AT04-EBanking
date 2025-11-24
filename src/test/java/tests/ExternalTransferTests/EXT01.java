@@ -20,7 +20,7 @@ public class EXT01 extends TestBase {
         externalTransferPage = new ExternalTransferPage();
     }
 
-    @Test
+    @Test(description = "Show error message when 'Account' fields blank")
     public void EXT01() {
         userLoginPage.login(AccountFactory.userDefault());
 

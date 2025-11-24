@@ -44,7 +44,7 @@ public class EXT09 extends TestBase {
         accountDetailPage = new AccountDetailPage();
     }
 
-    @Test
+    @Test(description = "Successful External transfer")
     public void EXT09() {
         userLoginPage.login(AccountFactory.userDefault());
 
