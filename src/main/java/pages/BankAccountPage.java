@@ -35,8 +35,6 @@ public class BankAccountPage extends BasePage {
         int typeColIdx = getColumnIndex(COL_HEADER_TYPE);
         int targetColIdx = getColumnIndex(COL_HEADER_ACCOUNT_NO);
 
-        // XPath tìm tất cả các ô Số tài khoản (target)
-        // Mà tại dòng đó, cột Loại (type) có chứa text mong muốn
         String xpath = String.format(
                 "//div[@id='j_idt27']//table/tbody/tr[td[%d][contains(normalize-space(), '%s')]]/td[%d]",
                 typeColIdx, accountType, targetColIdx
@@ -98,11 +96,7 @@ public class BankAccountPage extends BasePage {
     private static final String COL_HEADER_TYPE = "Loại tài khoản";
     private static final String COL_HEADER_ACCOUNT_NO = "Tài Khoản";
 
-    private final By accountTableBody = By.id("j_idt27_data");
     private final By closeButton = By.className("ui-icon-closethick");
-    private final By lastestAccountNumberLink = By.xpath("//div[(@id='j_idt25_content')] //div[(@id='j_idt27')]  //tr[last()]//td[1]//a");
-    private final By latestTransactionAmount = By.xpath("//tbody[@id='j_idt37_data']/tr[1]/td[3]");
-    private final By latestTransactionDate = By.xpath("//tbody[@id='j_idt37_data']/tr[1]/td[1]");
     private final By headerTable = By.xpath("//div[@id='j_idt27']//table/thead//th");
     private final By successMessageText = By.cssSelector("#primefacesmessagedlg .ui-dialog-content");
     private final By latestTransactionRow = By.xpath("//tbody[@id='j_idt37_data']/tr[1]");

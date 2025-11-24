@@ -17,16 +17,11 @@ public class ExternalTransferPage extends BasePage {
     }
 
     @Step("Fill data and submit form transfer")
-    public void fillFormDetails(ExternalTransfer data)
-    {
+    public void fillFormDetails(ExternalTransfer data) {
         enterReceiverAccount(data.getReceiverAccount());
-
         enterReceiverName(data.getReceiverName());
-
         selectBankAndBranch(data.getBankValue(), data.getBranchValue());
-
         enterContent(data.getContent());
-
         enterAmount(data.getAmount());
     }
 

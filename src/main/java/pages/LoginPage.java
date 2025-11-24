@@ -22,7 +22,7 @@ public class LoginPage extends BasePage {
         type(usernameInput, username);
     }
 
-    @Step("2. Enter Password: ********")
+    @Step("2. Enter Password: {maskPassword(password)}")
     public void enterPassword(String password) {
         log.info("Entering password: {}", maskPassword(password));
         type(passwordInput, password);
@@ -34,13 +34,6 @@ public class LoginPage extends BasePage {
         click(loginButton);
     }
 
-    public String getErrorMessage() {
-        log.info("Checking for login error message");
-        String message = getVisibleText(errorMessageText);
-        log.info("Error message displayed: {}", message);
-        return message;
-    }
-
     private String maskPassword(String password) {
         if (password == null) return "null";
         return "*".repeat(Math.min(password.length(), 8));
@@ -49,5 +42,4 @@ public class LoginPage extends BasePage {
     private final By usernameInput = By.name("j_idt10:j_idt12");
     private final By passwordInput = By.name("j_idt10:j_idt14");
     private final By loginButton = By.name("j_idt10:j_idt16");
-    private final By errorMessageText = By.cssSelector("div.ui-growl-message > p");
 }

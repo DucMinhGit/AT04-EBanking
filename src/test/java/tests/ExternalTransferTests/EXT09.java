@@ -29,19 +29,14 @@ public class EXT09 extends TestBase {
     ExternalTransfer previewData;
 
     String otp;
-    String successMessage;
-    String expectedSuccessMessage;
-    double actualTransactionAmount;
-    double expectedAmount;
     double currentBalance;
-    double maxTransferable;
     double transferAmount;
     double actualEndingBalance;
     double expectedEndingBalance;
 
     @BeforeMethod
     public void init() {
-        setupUserWithBalance(AccountFactory.userDefault(), 5000);
+        setupUserWithBalance(AccountFactory.userDefault(), Constants.STANDARD_TRANSFER_AMOUNT);
 
         externalTransferPage = new ExternalTransferPage();
         confirmationPage = new ExternalTransferConfirmationPage();
