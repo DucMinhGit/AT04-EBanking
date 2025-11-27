@@ -12,19 +12,8 @@ public class FooterComponent {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
-    private final By footerRoot = By.id("bottom");
-    private final By copyrightText = By.cssSelector("div.copy_wrap");
-
     public FooterComponent(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
         this.wait = wait;
-    }
-
-    public String getCopyrightText() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(copyrightText)).getText();
-    }
-
-    public void waitForComponentLoad() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(footerRoot));
     }
 }

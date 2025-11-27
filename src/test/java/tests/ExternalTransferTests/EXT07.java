@@ -28,7 +28,7 @@ public class EXT07 extends TestBase {
     public void EXT07() {
         userLoginPage.login(AccountFactory.userDefault());
 
-        homePage.clickExternalTransfer();
+        homePage.goToExternalTransferPage();
 
         externalTransferPage.selectAccount(this.currentDepositAcctAnyTerm);
 
@@ -39,7 +39,7 @@ public class EXT07 extends TestBase {
         data.setFromAccountValue("");
         data.setAmount(amountToTransfer);
 
-        externalTransferPage.fillFormDetails(data);
+        externalTransferPage.submitForm(data);
 
         externalTransferPage.clickSubmit();
 

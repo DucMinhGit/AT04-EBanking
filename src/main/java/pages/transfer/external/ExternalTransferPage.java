@@ -10,19 +10,15 @@ import pages.BasePage;
 
 @Log4j2
 public class ExternalTransferPage extends BasePage {
+    @Step("Fill data and submit form transfer")
     public void submitForm(ExternalTransfer data) {
         selectAccount(data.getFromAccountValue());
-        fillFormDetails(data);
-        clickSubmit();
-    }
-
-    @Step("Fill data and submit form transfer")
-    public void fillFormDetails(ExternalTransfer data) {
         enterReceiverAccount(data.getReceiverAccount());
         enterReceiverName(data.getReceiverName());
         selectBankAndBranch(data.getBankValue(), data.getBranchValue());
         enterContent(data.getContent());
         enterAmount(data.getAmount());
+        clickSubmit();
     }
 
     @Step("Select 'From Account': {accountValue}")

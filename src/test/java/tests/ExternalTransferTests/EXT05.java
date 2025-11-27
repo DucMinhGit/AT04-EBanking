@@ -24,7 +24,7 @@ public class EXT05 extends TestBase {
     public void EXT05() {
         userLoginPage.login(AccountFactory.userDefault());
 
-        homePage.clickExternalTransfer();
+        homePage.goToExternalTransferPage();
 
         data = ExternalTransferFactory.initData();
         data.setBranchValue("");

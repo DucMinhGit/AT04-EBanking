@@ -23,7 +23,7 @@ public class EXT04 extends TestBase {
     @Test(description = "Show error message when 'Bank' fields blank")
     public void EXT04() {
         userLoginPage.login(AccountFactory.userDefault());
-        homePage.clickExternalTransfer();
+        homePage.goToExternalTransferPage();
 
         data = ExternalTransferFactory.initData();
         data.setBankValue("");

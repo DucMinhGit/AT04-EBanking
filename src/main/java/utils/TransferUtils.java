@@ -10,8 +10,12 @@ public class TransferUtils {
         return amount;
     }
 
-    public static double calcExpectedBalance(double currentBalance, double amount, double fee) {
-        return currentBalance - amount - fee;
+    public static double calcExpectedBalanceExternal(double currentBalance, double amount) {
+        return currentBalance - amount - Constants.EXT_FEE;
+    }
+
+    public static double calcExpectedBalanceInternal(double currentBalance, double amount) {
+        return currentBalance - amount - Constants.INT_FEE;
     }
 
     public String formatMoneyForTable(double amount) {

@@ -29,10 +29,16 @@ public class EXT09 extends TestBase {
     ExternalTransfer previewData;
 
     String otp;
-    double currentBalance;
-    double transferAmount;
     double actualEndingBalance;
     double expectedEndingBalance;
+
+    String receiverAccount = "10001111";
+    String bank = "Ngân hàng Đông Á";
+    String branch = "Chi nhánh Đà Nẵng";
+    String receiverName = "Nguyen Van A";
+    double currentBalance = Constants.STANDARD_TRANSFER_AMOUNT;
+    double amountTransfer = (currentBalance - Constants.EXT_FEE) - 1;
+    String content = "TCS 09";
 
     @BeforeMethod
     public void init() {
@@ -48,16 +54,17 @@ public class EXT09 extends TestBase {
     public void EXT09() {
         userLoginPage.login(AccountFactory.userDefault());
 
-        homePage.clickExternalTransfer();
+        homePage.goToExternalTransferPage();
 
-        externalTransferPage.selectAccount(this.currentDepositAcctAnyTerm);
-
-        currentBalance = externalTransferPage.getAvailableBalance();
-        transferAmount = TransferUtils.generateValidTransferAmount(currentBalance, Constants.EXT_FEE);
-
-        data = ExternalTransferFactory.initData();
-        data.setFromAccountValue("");
-        data.setAmount(transferAmount);
+        data = ExternalTransfer.builder()
+                .fromAccountValue(this.currentDepositAcctAnyTerm)
+                .receiverAccount(receiverAccount)
+                .receiverName(receiverName)
+                .bankValue(bank)
+                .branchValue(branch)
+                .amount(amountTransfer)
+                .content(content)
+                .build();
 
         externalTransferPage.submitForm(data);
 
@@ -78,12 +85,12 @@ public class EXT09 extends TestBase {
 
         bankAccountPage.closeDialogMessage();
 
-        Assert.assertEquals(bankAccountPage.getLatestTransactionAmount(), data.getAmount());
+        Assert.assertEquals(bankAccountPage.getLatestTransactionAmount(1), data.getAmount());
 
-        bankAccountPage.clickDetailAccount(this.currentDepositAcctAnyTerm);
+        bankAccountPage.viewAccountDetail(this.currentDepositAcctAnyTerm);
 
         actualEndingBalance = accountDetailPage.getBalance();
-        expectedEndingBalance = TransferUtils.calcExpectedBalance(currentBalance, data.getAmount(), Constants.EXT_FEE);
+        expectedEndingBalance = TransferUtils.calcExpectedBalanceExternal(currentBalance, data.getAmount());
 
         Assert.assertEquals(actualEndingBalance, expectedEndingBalance);
     }

@@ -23,7 +23,7 @@ public class EXT02 extends TestBase {
     public void EXT02() {
         userLoginPage.login(AccountFactory.userDefault());
 
-        homePage.clickExternalTransfer();
+        homePage.goToExternalTransferPage();
 
         data = ExternalTransferFactory.initData();
         data.setReceiverAccount("");

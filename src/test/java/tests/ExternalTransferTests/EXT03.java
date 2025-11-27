@@ -24,7 +24,7 @@ public class EXT03 extends TestBase {
     public void EXT03() {
         userLoginPage.login(AccountFactory.userDefault());
 
-        homePage.clickExternalTransfer();
+        homePage.goToExternalTransferPage();
 
         data = ExternalTransferFactory.initData();
         data.setReceiverName("");

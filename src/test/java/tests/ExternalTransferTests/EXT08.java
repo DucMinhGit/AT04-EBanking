@@ -47,7 +47,7 @@ public class EXT08 extends TestBase {
     public void EXT08() {
         userLoginPage.login(AccountFactory.userDefault());
 
-        homePage.clickExternalTransfer();
+        homePage.goToExternalTransferPage();
 
         externalTransferPage.selectAccount(this.currentDepositAcctAnyTerm);
 

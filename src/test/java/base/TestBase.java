@@ -61,15 +61,14 @@ public class TestBase {
         homePage.goToCreateAccountPage();
         createAccountPage.createSavingAccount();
         bankAccountPage.closeDialogMessage();
+        this.currentDepositAcctAnyTerm = bankAccountPage.getNewestAccountNumber("last()");
 
         homePage.goToCreateAccountPage();
         createAccountPage.createDepositAcctAnyTerm();
         bankAccountPage.closeDialogMessage();
+        this.currentSavingAccount = bankAccountPage.getNewestAccountNumber("last()");
 
-        this.currentDepositAcctAnyTerm = bankAccountPage.getNewestAccountNumber("Tài Khoản kỳ gửi không kỳ hạn");
-        this.currentSavingAccount = bankAccountPage.getNewestAccountNumber("Tài Khoản tiết kiệm");
-
-        homePage.clickLogout();
+        homePage.logout();
 
         adminLoginPage.login(AccountFactory.adminDefault());
         adminDepositPage.goToDepositPage();

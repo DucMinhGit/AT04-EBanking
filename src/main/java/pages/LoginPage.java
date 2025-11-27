@@ -22,7 +22,7 @@ public class LoginPage extends BasePage {
         type(usernameInput, username);
     }
 
-    @Step("2. Enter Password: {maskPassword(password)}")
+    @Step("2. Enter Password: {********}")
     public void enterPassword(String password) {
         log.info("Entering password: {}", maskPassword(password));
         type(passwordInput, password);

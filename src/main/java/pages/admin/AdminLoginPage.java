@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import models.Account;
 import org.openqa.selenium.By;
 import pages.BasePage;
+import utils.Configs;
 
 @Log4j2
 public class AdminLoginPage extends BasePage {
@@ -12,7 +13,7 @@ public class AdminLoginPage extends BasePage {
     public void login(Account account) {
         log.info("Admin login start: {}", account.getUsername());
 
-        driver.get("http://14.176.232.213:8080/EBankingWebsite/faces/admin/Login.xhtml");
+        driver.get(Configs.ADMIN_PAGE_URL);
 
         type(userIdInput, account.getUsername());
         type(passwordInput, account.getPassword());

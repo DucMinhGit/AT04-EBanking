@@ -23,9 +23,10 @@ public class INT01 extends TestBase {
 
     String otp;
     OTPPage otpPage;
-    double currentBalance;
-    double transferAmount;
     double expectedEndingBalance;
+    double currentBalance = Constants.STANDARD_TRANSFER_AMOUNT;
+    double amountTransfer = (currentBalance - Constants.INT_FEE) - 1;
+    String content = "TCS INT 08";
 
     @BeforeMethod
     public void init() {
@@ -43,19 +44,12 @@ public class INT01 extends TestBase {
 
         homePage.goToInternalTransferPage();
 
-        internalTransferPage.selectAccount(this.currentDepositAcctAnyTerm);
-
-        // Lấy số dư hiện tại của tài khoản đó (Lưu lại để tính toán đối chiếu sau này)
-        currentBalance = internalTransferPage.getAvailableBalance();
-
-        // Gọi hàm TransferUtils để sinh ra một số tiền chuyển ngẫu nhiên nhưng hợp lệ
-        // (Số tiền này đảm bảo nhỏ hơn: Số dư hiện tại - Phí chuyển khoản)
-        transferAmount = TransferUtils.generateValidTransferAmount(currentBalance, Constants.INT_FEE);
-
-        data = InternalTransferFactory.initData();
-        data.setFromAccountValue("");// Để trống vì đã chọn tài khoản ở trên rồi
-        data.setReceiverAccount(this.currentSavingAccount);// Set tài khoản người nhận
-        data.setAmount(transferAmount);// Set số tiền cần chuyển vừa tính được
+        data = InternalTransfer.builder()
+                .fromAccountValue(this.currentDepositAcctAnyTerm)
+                .receiverAccount(currentSavingAccount)
+                .amount(amountTransfer)
+                .content(content)
+                .build();
 
         internalTransferPage.submitForm(data);
 
@@ -71,15 +65,12 @@ public class INT01 extends TestBase {
 
         bankAccountPage.closeDialogMessage();
 
-        Assert.assertEquals(bankAccountPage.getLatestTransactionAmount(), data.getAmount());
+        Assert.assertEquals(bankAccountPage.getLatestTransactionAmount(1), data.getAmount());
 
-        bankAccountPage.clickDetailAccount(this.currentDepositAcctAnyTerm);
+        bankAccountPage.viewAccountDetail(this.currentDepositAcctAnyTerm);
 
-        // Tính toán số dư mong đợi theo công thức chuẩn:
-        // Số dư mong đợi = Số dư ban đầu - Số tiền đã chuyển - Phí dịch vụ
-        expectedEndingBalance = TransferUtils.calcExpectedBalance(currentBalance, data.getAmount(), Constants.INT_FEE);
+        expectedEndingBalance = TransferUtils.calcExpectedBalanceInternal(currentBalance, data.getAmount());
 
-        // 3. Kiểm tra số dư thực tế trên web (accountDetailPage) có khớp với số dư mong đợi đã tính toán không
         Assert.assertEquals(accountDetailPage.getBalance(), expectedEndingBalance);
     }
 }

@@ -24,7 +24,7 @@ public class EXT06 extends TestBase {
     public void EXT06() {
         userLoginPage.login(AccountFactory.userDefault());
 
-        homePage.clickExternalTransfer();
+        homePage.goToExternalTransferPage();
 
         data = ExternalTransferFactory.initData();
         data.setReceiverAccount("100001440");
