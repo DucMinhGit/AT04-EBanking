@@ -28,7 +28,7 @@ public class INT02 extends TestBase {
         data = InternalTransferFactory.initData();
         data.setFromAccountValue("");
 
-        internalTransferPage.submitForm(data);
+        internalTransferPage.submitTransferInfo(data);
 
         Assert.assertEquals(internalTransferPage.getGeneralErrorMessage(), Messages.PLEASE_CHOOSE_AN_ACCOUNT);
     }

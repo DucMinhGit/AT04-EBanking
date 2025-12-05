@@ -29,7 +29,7 @@ public class EXT06 extends TestBase {
         data = ExternalTransferFactory.initData();
         data.setReceiverAccount("100001440");
 
-        externalTransferPage.submitForm(data);
+        externalTransferPage.submitTransferInfo(data);
 
         Assert.assertEquals(externalTransferPage.getGeneralErrorMessage(), Messages.INCORRECT_BENEFICIARY_INFORMATION);
     }

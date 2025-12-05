@@ -18,10 +18,14 @@ public class TransferUtils {
         return currentBalance - amount - Constants.INT_FEE;
     }
 
-    public String formatMoneyForTable(double amount) {
-        DecimalFormat df = new DecimalFormat("#,###");
-        String numberStr = df.format(Math.abs(amount));
-        String prefix = (amount < 0) ? "- " : "+ ";
-        return prefix + numberStr;
+    public static String generateInvalidOtp(String otp) {
+        if (otp == null || otp.isEmpty()) return "000000";
+
+        String prefix = otp.substring(0, otp.length() - 1);
+
+        char lastChar = otp.charAt(otp.length() - 1);
+        char newLastChar = (lastChar == '1') ? '2' : '1';
+
+        return prefix + newLastChar;
     }
 }

@@ -35,7 +35,7 @@ public class INT05 extends TestBase {
         data = InternalTransferFactory.initData();
         data.setContent("");
 
-        internalTransferPage.submitForm(data);
+        internalTransferPage.submitTransferInfo(data);
 
         Assert.assertEquals(internalTransferPage.getGeneralErrorMessage(), Messages.CONTENT_MUST_NOT_BE_EMPTY);
     }

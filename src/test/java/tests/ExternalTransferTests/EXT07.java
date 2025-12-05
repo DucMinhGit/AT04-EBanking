@@ -39,7 +39,7 @@ public class EXT07 extends TestBase {
         data.setFromAccountValue("");
         data.setAmount(amountToTransfer);
 
-        externalTransferPage.submitForm(data);
+        externalTransferPage.submitTransferInfo(data);
 
         externalTransferPage.clickSubmit();
 

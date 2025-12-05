@@ -36,6 +36,8 @@ public class INT08 extends TestBase {
         transferPage = new InternalTransferPage();
         confirmPage = new ConfirmTransferPage();
         bankAccountPage = new BankAccountPage();
+        otpPage = new OTPPage();
+        faker = new Faker();
     }
 
     @Test(description = "Wrong OTP blocks the Internal transfer")
@@ -53,16 +55,13 @@ public class INT08 extends TestBase {
         data.setFromAccountValue("");
         data.setAmount(transferAmount);
 
-        transferPage.submitForm(data);
+        transferPage.submitTransferInfo(data);
 
         confirmPage.confirm();
 
         otp = confirmPage.getOtpFromEmail();
 
-        faker = new Faker();
-        wrongOtp = otp + faker.number().digits(3);
-
-        otpPage = new OTPPage();
+        wrongOtp = TransferUtils.generateInvalidOtp(otp);
 
         otpPage.enterOtp(wrongOtp);
 

@@ -58,14 +58,16 @@ public class EXT08 extends TestBase {
         data.setFromAccountValue("");
         data.setAmount(transferAmount);
 
-        externalTransferPage.submitForm(data);
+        externalTransferPage.submitTransferInfo(data);
         confirmationPage.confirm();
 
         otp = otpPage.getOtpFromEmail();
 
-        wrongOtp = otp + faker.number().digits(3);
+        wrongOtp = TransferUtils.generateInvalidOtp(otp);
 
-        otpPage.submitOtp(wrongOtp);
+        otpPage.enterOtp(wrongOtp);
+
+        otpPage.submitTransfer();
 
         Assert.assertEquals(otpPage.getErrorMessage(), Messages.WRONG_OTP);
     }

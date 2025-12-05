@@ -29,7 +29,7 @@ public class EXT05 extends TestBase {
         data = ExternalTransferFactory.initData();
         data.setBranchValue("");
 
-        externalTransferPage.submitForm(data);
+        externalTransferPage.submitTransferInfo(data);
 
         Assert.assertEquals(externalTransferPage.getGeneralErrorMessage(), Messages.BRANCH_MUST_NOT_BE_EMPTY);
     }

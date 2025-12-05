@@ -30,7 +30,6 @@ public class BankAccountPage extends BasePage {
         return colIdx;
     }
 
-    @Step("Get Newest Account Number (Max Value) for Type: {accountType}")
     public String getNewestAccountNumber(String row) {
         int typeColIdx = getColumnIndex(COL_HEADER_ACCOUNT_NO, headerInfoTable);
 
@@ -39,7 +38,6 @@ public class BankAccountPage extends BasePage {
         return cell.getText().trim();
     }
 
-    @Step("Get Newest Account Number (Max Value) for Type: {accountType}")
     public String getNewestAccountNumber(int row) {
         int typeColIdx = getColumnIndex(COL_HEADER_ACCOUNT_NO, headerInfoTable);
 
@@ -48,7 +46,7 @@ public class BankAccountPage extends BasePage {
         return cell.getText().trim();
     }
 
-    @Step("Close notification")
+    @Step("Close dialog message")
     public void closeDialogMessage() {
         waitForVisible(closeButton);
         click(closeButton);

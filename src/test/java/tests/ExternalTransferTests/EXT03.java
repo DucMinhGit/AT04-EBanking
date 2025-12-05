@@ -29,7 +29,7 @@ public class EXT03 extends TestBase {
         data = ExternalTransferFactory.initData();
         data.setReceiverName("");
 
-        externalTransferPage.submitForm(data);
+        externalTransferPage.submitTransferInfo(data);
 
         Assert.assertEquals(externalTransferPage.getGeneralErrorMessage(), Messages.RECIVER_NAME_MUST_NOT_BE_EMPTY);
     }

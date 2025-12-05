@@ -35,7 +35,7 @@ public class INT06 extends TestBase {
         data = InternalTransferFactory.initData();
         data.setReceiverAccount("100001440");
 
-        internalTransferPage.submitForm(data);
+        internalTransferPage.submitTransferInfo(data);
 
         Assert.assertEquals(internalTransferPage.getGeneralErrorMessage(), Messages.INVALID_ACCOUNT);
     }

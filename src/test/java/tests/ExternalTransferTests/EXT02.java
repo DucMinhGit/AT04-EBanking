@@ -28,7 +28,7 @@ public class EXT02 extends TestBase {
         data = ExternalTransferFactory.initData();
         data.setReceiverAccount("");
 
-        externalTransferPage.submitForm(data);
+        externalTransferPage.submitTransferInfo(data);
 
         Assert.assertEquals(externalTransferPage.getGeneralErrorMessage(), Messages.MIN_ACCOUNT_NUMBER);
     }

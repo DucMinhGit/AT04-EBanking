@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 public class INT07 extends TestBase {
     InternalTransferPage internalTransferPage;
-    InternalTransfer data;
+    InternalTransfer data = new InternalTransfer();
 
     double currentBalance;
     double amountToTransfer;
@@ -36,18 +36,14 @@ public class INT07 extends TestBase {
 
         homePage.goToInternalTransferPage();
 
-        internalTransferPage.selectAccount(this.currentDepositAcctAnyTerm);
-
         currentBalance = internalTransferPage.getAvailableBalance();
         amountToTransfer = currentBalance +  1;
 
-        data = InternalTransferFactory.initData();
-        data.setFromAccountValue("");
+        data.setFromAccountValue(this.currentDepositAcctAnyTerm);
         data.setReceiverAccount(this.currentSavingAccount);
         data.setAmount(amountToTransfer);
 
-        internalTransferPage.fillFormDetails(data);
-        internalTransferPage.clickSubmit();
+        internalTransferPage.submitTransferInfo(data);
 
         Assert.assertEquals(internalTransferPage.getGeneralErrorMessage(), Messages.EXCESS_AMOUNT);
     }

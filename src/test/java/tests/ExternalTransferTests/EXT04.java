@@ -28,7 +28,7 @@ public class EXT04 extends TestBase {
         data = ExternalTransferFactory.initData();
         data.setBankValue("");
 
-        externalTransferPage.submitForm(data);
+        externalTransferPage.submitTransferInfo(data);
 
         Assert.assertEquals(externalTransferPage.getGeneralErrorMessage(), Messages.BANK_MUST_NOT_BE_EMPTY);
     }
