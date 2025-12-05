@@ -4,7 +4,9 @@ import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import models.ExternalTransfer;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import pages.BasePage;
+import utils.Driver;
 
 @Log4j2
 public class ExternalTransferConfirmationPage extends BasePage {
@@ -32,13 +34,16 @@ public class ExternalTransferConfirmationPage extends BasePage {
     }
 
     private String getValueByRow(int rowNumber) {
-        String dynamicXpath = String.format("%s/tr[%d]/td[2]/label", tableBodyXpath, rowNumber);
+        String rowXpath = String.format("%s/tr[%d]", tableBodyXpath, rowNumber);
+        By rowLocator = By.xpath(rowXpath);
 
-        By locator = By.xpath(dynamicXpath);
-        waitForVisible(locator);
-        return getVisibleText(locator).trim();
+        waitForVisible(rowLocator);
+        WebElement rowElement = Driver.getDriver().findElement(rowLocator);
+
+        WebElement valueLabel = rowElement.findElement(By.cssSelector("td:last-of-type label"));
+
+        return valueLabel.getText().trim();
     }
-
     @Step("Click 'Xac nhan' and open OTP page")
     public void confirm() {
         waitForVisible(confirmButton);
