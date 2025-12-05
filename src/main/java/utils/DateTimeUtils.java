@@ -1,4 +1,4 @@
-package Utils;
+package utils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -10,11 +10,6 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public final class DateTimeUtils {
-
-    public static final ZoneId VIETNAM_ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
-
-    private static final DateTimeFormatter STRING_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
     private DateTimeUtils() {}
 
     public static LocalDateTime parseDateTimeString(String dateTimeString) {
@@ -42,4 +37,7 @@ public final class DateTimeUtils {
         }
         return true;
     }
+
+    public static final ZoneId VIETNAM_ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
+    private static final DateTimeFormatter STRING_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 }
