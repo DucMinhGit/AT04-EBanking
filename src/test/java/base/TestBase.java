@@ -61,12 +61,12 @@ public class TestBase {
         homePage.goToCreateAccountPage();
         createAccountPage.createSavingAccount();
         bankAccountPage.closeDialogMessage();
-        this.currentDepositAcctAnyTerm = bankAccountPage.getNewestAccountNumber("last()");
+        this.currentSavingAccount = bankAccountPage.getNewestAccountNumber("last()");
 
         homePage.goToCreateAccountPage();
         createAccountPage.createDepositAcctAnyTerm();
         bankAccountPage.closeDialogMessage();
-        this.currentSavingAccount = bankAccountPage.getNewestAccountNumber("last()");
+        this.currentDepositAcctAnyTerm = bankAccountPage.getNewestAccountNumber("last()");
 
         homePage.logout();
 

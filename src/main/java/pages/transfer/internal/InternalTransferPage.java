@@ -11,17 +11,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 @Log4j2
 public class InternalTransferPage extends BasePage {
+    @Step("Fill data and submit form transfer")
     public void submitTransferInfo(InternalTransfer data) {
         selectAccount(data.getFromAccountValue());
-        fillFormDetails(data);
-        clickSubmit();
-    }
-
-    @Step("Fill data and submit form transfer")
-    public void fillFormDetails(InternalTransfer data) {
         enterReceiverAccount(data.getReceiverAccount());
         enterContent(data.getContent());
         enterAmount(data.getAmount());
+        clickSubmit();
     }
 
     @Step("Select 'From Account': {accountValue}")
