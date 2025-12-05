@@ -1,16 +1,11 @@
 package pages.transfer.external;
 
-import com.mailosaur.MailosaurException;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import pages.BasePage;
 import pages.transfer.internal.OpenNewTabPage;
 import pages.transfer.internal.YopMailPage;
-import utils.MailosaurUtil;
-import utils.Constants;
-
-import java.io.IOException;
 
 @Log4j2
 public class ExternalTransferOtpPage extends BasePage {

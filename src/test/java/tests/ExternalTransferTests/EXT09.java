@@ -2,23 +2,18 @@ package tests.ExternalTransferTests;
 
 import base.TestBase;
 import com.github.javafaker.Faker;
-import com.mailosaur.MailosaurException;
 import datafactory.AccountFactory;
 import datafactory.ExternalTransferFactory;
 import lombok.extern.log4j.Log4j2;
 import models.ExternalTransfer;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.AccountDetailPage;
 import pages.transfer.external.*;
-import utils.Configs;
 import utils.Constants;
 import utils.Messages;
 import utils.TransferUtils;
-
-import java.io.IOException;
 
 @Log4j2
 public class EXT09 extends TestBase {

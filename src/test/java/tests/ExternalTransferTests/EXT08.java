@@ -2,10 +2,8 @@ package tests.ExternalTransferTests;
 
 import base.TestBase;
 import com.github.javafaker.Faker;
-import com.mailosaur.MailosaurException;
 import datafactory.AccountFactory;
 import datafactory.ExternalTransferFactory;
-import models.Account;
 import models.ExternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -16,9 +14,6 @@ import pages.transfer.external.ExternalTransferPage;
 import utils.Constants;
 import utils.Messages;
 import utils.TransferUtils;
-
-import javax.swing.text.Utilities;
-import java.io.IOException;
 
 public class EXT08 extends TestBase {
     ExternalTransferPage externalTransferPage;
