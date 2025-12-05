@@ -1,7 +1,5 @@
 package utils;
 
-import java.text.DecimalFormat;
-
 public class TransferUtils {
     public static double generateValidTransferAmount(double currentBalance, double fee) {
         double maxTransferable = currentBalance - fee;

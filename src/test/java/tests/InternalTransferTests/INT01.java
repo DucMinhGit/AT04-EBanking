@@ -2,10 +2,8 @@ package tests.InternalTransferTests;
 
 import base.TestBase;
 import datafactory.AccountFactory;
-import datafactory.InternalTransferFactory;
 import lombok.extern.slf4j.Slf4j;
 import models.InternalTransfer;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;

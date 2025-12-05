@@ -1,7 +1,6 @@
 package tests.InternalTransferTests;
 
 import datafactory.AccountFactory;
-import datafactory.InternalTransferFactory;
 import models.InternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -12,7 +11,7 @@ import utils.Messages;
 
 public class INT02 extends TestBase {
     InternalTransferPage internalTransferPage;
-    InternalTransfer data;
+    InternalTransfer data = new InternalTransfer();
 
     @BeforeMethod
     public void init() {
@@ -25,7 +24,6 @@ public class INT02 extends TestBase {
 
         homePage.goToInternalTransferPage();
 
-        data = InternalTransferFactory.initData();
         data.setFromAccountValue("");
 
         internalTransferPage.submitTransferInfo(data);

@@ -2,7 +2,6 @@ package tests.InternalTransferTests;
 
 import com.github.javafaker.Faker;
 import datafactory.AccountFactory;
-import datafactory.InternalTransferFactory;
 import models.InternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -21,7 +20,7 @@ public class INT08 extends TestBase {
     ConfirmTransferPage confirmPage;
     BankAccountPage bankAccountPage;
 
-    InternalTransfer data;
+    InternalTransfer data = new InternalTransfer();
     String otp;
     OTPPage otpPage;
     double currentBalance;
@@ -51,7 +50,6 @@ public class INT08 extends TestBase {
         currentBalance = transferPage.getAvailableBalance();
         transferAmount = TransferUtils.generateValidTransferAmount(currentBalance, Constants.INT_FEE);
 
-        data = InternalTransferFactory.initData();
         data.setFromAccountValue("");
         data.setAmount(transferAmount);
 

@@ -14,15 +14,29 @@ public class ExternalTransferConfirmationPage extends BasePage {
 
     @Step("Get data for verify (Preview Data)")
     public ExternalTransfer getConfirmationDetailsAsModel() {
-        waitForVisible(amountLabel);
-        String rawAmount = getVisibleText(amountLabel).trim();
+        String receiverAccount = getValueByRow(3);
+        String rawAmount       = getValueByRow(4);
+        String content         = getValueByRow(6);
+        String receiverName    = getValueByRow(7);
+
         String parsedAmount = rawAmount.replaceAll("[^0-9]", "");
-        return ExternalTransfer.builder()
-                .receiverAccount(getVisibleText(receiverAccountLabel).trim())
-                .amount(Double.parseDouble(parsedAmount))
-                .content(getVisibleText(contentLabel).trim())
-                .receiverName(getVisibleText(receiverNameLabel).trim())
-                .build();
+
+        ExternalTransfer data = new ExternalTransfer();
+
+        data.setReceiverAccount(receiverAccount);
+        data.setAmount(Double.parseDouble(parsedAmount));
+        data.setContent(content);
+        data.setReceiverName(receiverName);
+
+        return data;
+    }
+
+    private String getValueByRow(int rowNumber) {
+        String dynamicXpath = String.format("%s/tr[%d]/td[2]/label", tableBodyXpath, rowNumber);
+
+        By locator = By.xpath(dynamicXpath);
+        waitForVisible(locator);
+        return getVisibleText(locator).trim();
     }
 
     @Step("Click 'Xac nhan' and open OTP page")
@@ -31,10 +45,6 @@ public class ExternalTransferConfirmationPage extends BasePage {
         click(confirmButton);
     }
 
+    private final String tableBodyXpath = "//div[contains(@id, 'content')]//tbody";
     private final By confirmButton = By.name("j_idt23:j_idt44");
-    private final String tableBodyXPath = "//input[contains(@name, ':j_idt44')]/ancestor::tbody[1]";
-    private final By receiverAccountLabel = By.xpath(tableBodyXPath + "/tr[3]/td[2]/label");
-    private final By amountLabel = By.xpath(tableBodyXPath + "/tr[4]/td[2]/label");
-    private final By contentLabel = By.xpath(tableBodyXPath + "/tr[6]/td[2]/label");
-    private final By receiverNameLabel = By.xpath(tableBodyXPath + "/tr[7]/td[2]/label");
 }

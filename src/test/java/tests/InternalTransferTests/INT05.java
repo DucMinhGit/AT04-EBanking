@@ -1,25 +1,17 @@
 package tests.InternalTransferTests;
 
 import datafactory.AccountFactory;
-import datafactory.InternalTransferFactory;
-import models.Account;
 import models.InternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import utils.Constants;
-import utils.Driver;
 import base.TestBase;
 import org.testng.annotations.Test;
-import pages.LoginPage;
-import pages.HomePage;
 import pages.transfer.internal.InternalTransferPage;
 import utils.Messages;
 
-import java.math.BigDecimal;
-
 public class INT05 extends TestBase {
     InternalTransferPage internalTransferPage;
-    InternalTransfer data;
+    InternalTransfer data = new InternalTransfer();
 
     @BeforeMethod
     public void init() {
@@ -32,7 +24,6 @@ public class INT05 extends TestBase {
 
         homePage.goToInternalTransferPage();
 
-        data = InternalTransferFactory.initData();
         data.setContent("");
 
         internalTransferPage.submitTransferInfo(data);
