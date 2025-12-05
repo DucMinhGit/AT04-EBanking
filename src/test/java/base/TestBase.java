@@ -36,8 +36,6 @@ public class TestBase {
     public void setUp() {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--no-sandbox", "--disable-dev-shm-usage", "--guest");
-        File uBlock = new File("extensions/uBlock.crx");
-        chromeOptions.addExtensions(uBlock);
 
         driver = new ChromeDriver(chromeOptions);
         Driver.setDriver(driver);
