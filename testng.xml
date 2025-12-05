@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="EBanking Test Suite" parallel="tests" thread-count="2">
+
+    <listeners>
+<!--        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>-->
+        <listener class-name="utils.AllureListener"/>
+    </listeners>
+
+    <test name="Internal Transfer Tests">
+        <packages>
+            <package name="tests.InternalTransferTests"/>
+        </packages>
+    </test>
+
+    <test name="External Transfer Tests">
+        <packages>
+            <package name="tests.ExternalTransferTests"/>
+        </packages>
+    </test>
+
+</suite>

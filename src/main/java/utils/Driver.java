@@ -1,4 +1,4 @@
-package Utils;
+package utils;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
