@@ -59,7 +59,7 @@ public class EXT08 extends TestBase {
         data.setAmount(transferAmount);
 
         externalTransferPage.submitForm(data);
-        confirmationPage.clickConfirm();
+        confirmationPage.confirm();
 
         otp = otpPage.getOtpFromEmail();
 

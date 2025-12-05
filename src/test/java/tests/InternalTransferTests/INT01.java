@@ -8,6 +8,7 @@ import models.InternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.*;
 import pages.transfer.internal.*;
 import utils.TransferUtils;
@@ -19,7 +20,7 @@ public class INT01 extends TestBase {
     InternalTransferPage internalTransferPage;
     ConfirmTransferPage confirmPage;
     BankAccountPage bankAccountPage;
-    InternalTransfer data;
+    InternalTransfer data = new InternalTransfer();
 
     String otp;
     OTPPage otpPage;
@@ -44,16 +45,14 @@ public class INT01 extends TestBase {
 
         homePage.goToInternalTransferPage();
 
-        data = InternalTransfer.builder()
-                .fromAccountValue(this.currentDepositAcctAnyTerm)
-                .receiverAccount(currentSavingAccount)
-                .amount(amountTransfer)
-                .content(content)
-                .build();
+        data.setFromAccountValue(this.currentDepositAcctAnyTerm);
+        data.setReceiverAccount(currentSavingAccount);
+        data.setAmount(amountTransfer);
+        data.setContent(content);
 
-        internalTransferPage.submitForm(data);
+        internalTransferPage.submitTransferInfo(data);
 
-        confirmPage.clickConfirm();
+        confirmPage.confirm();
 
         otp = confirmPage.getOtpFromEmail();
 
@@ -61,16 +60,18 @@ public class INT01 extends TestBase {
 
         otpPage.clickTransfer();
 
-        Assert.assertEquals(bankAccountPage.getSuccessMessage(), Messages.MONEY_TRANSFER_SUCCESSFUL);
+        SoftAssert sa = new SoftAssert();
+        sa.assertEquals(bankAccountPage.getSuccessMessage(), Messages.MONEY_TRANSFER_SUCCESSFUL);
 
         bankAccountPage.closeDialogMessage();
 
-        Assert.assertEquals(bankAccountPage.getLatestTransactionAmount(1), data.getAmount());
+        sa.assertEquals(bankAccountPage.getLatestTransactionAmount(1), data.getAmount());
 
         bankAccountPage.viewAccountDetail(this.currentDepositAcctAnyTerm);
 
         expectedEndingBalance = TransferUtils.calcExpectedBalanceInternal(currentBalance, data.getAmount());
 
-        Assert.assertEquals(accountDetailPage.getBalance(), expectedEndingBalance);
+        sa.assertEquals(accountDetailPage.getBalance(), expectedEndingBalance);
+        sa.assertAll();
     }
 }

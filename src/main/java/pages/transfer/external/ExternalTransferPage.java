@@ -11,7 +11,7 @@ import pages.BasePage;
 @Log4j2
 public class ExternalTransferPage extends BasePage {
     @Step("Fill data and submit form transfer")
-    public void submitForm(ExternalTransfer data) {
+    public void submitTransferInfo(ExternalTransfer data) {
         selectAccount(data.getFromAccountValue());
         enterReceiverAccount(data.getReceiverAccount());
         enterReceiverName(data.getReceiverName());

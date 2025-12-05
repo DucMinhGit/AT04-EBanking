@@ -16,7 +16,7 @@ public class ConfirmTransferPage extends BasePage {
     // Khởi tạo helper mở tab
     private final OpenNewTabPage tabHelper = new OpenNewTabPage();
 
-    public void clickConfirm() {
+    public void confirm() {
         waitForVisible(confirmBtnBy);
         click(confirmBtnBy);
         log.info("Clicked Confirm successfully.");

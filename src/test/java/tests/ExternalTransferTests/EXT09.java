@@ -1,6 +1,7 @@
 package tests.ExternalTransferTests;
 
 import base.TestBase;
+import com.github.javafaker.Faker;
 import com.mailosaur.MailosaurException;
 import datafactory.AccountFactory;
 import datafactory.ExternalTransferFactory;
@@ -9,6 +10,7 @@ import models.ExternalTransfer;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.AccountDetailPage;
 import pages.transfer.external.*;
 import utils.Configs;
@@ -25,20 +27,18 @@ public class EXT09 extends TestBase {
     ExternalTransferOtpPage otpPage;
     AccountDetailPage accountDetailPage;
 
-    ExternalTransfer data;
     ExternalTransfer previewData;
 
     String otp;
     double actualEndingBalance;
     double expectedEndingBalance;
 
-    String receiverAccount = "10001111";
-    String bank = "Ngân hàng Đông Á";
-    String branch = "Chi nhánh Đà Nẵng";
-    String receiverName = "Nguyen Van A";
+    ExternalTransfer data = ExternalTransferFactory.initData();
     double currentBalance = Constants.STANDARD_TRANSFER_AMOUNT;
     double amountTransfer = (currentBalance - Constants.EXT_FEE) - 1;
-    String content = "TCS 09";
+
+    Faker faker = new Faker();
+    String content = faker.lorem().sentence(10);
 
     @BeforeMethod
     public void init() {
@@ -56,42 +56,40 @@ public class EXT09 extends TestBase {
 
         homePage.goToExternalTransferPage();
 
-        data = ExternalTransfer.builder()
-                .fromAccountValue(this.currentDepositAcctAnyTerm)
-                .receiverAccount(receiverAccount)
-                .receiverName(receiverName)
-                .bankValue(bank)
-                .branchValue(branch)
-                .amount(amountTransfer)
-                .content(content)
-                .build();
+        data.setFromAccountValue(this.currentDepositAcctAnyTerm);
+        data.setAmount(amountTransfer);
+        data.setContent(content);
 
-        externalTransferPage.submitForm(data);
+        externalTransferPage.submitTransferInfo(data);
 
         previewData = confirmationPage.getConfirmationDetailsAsModel();
 
-        Assert.assertEquals(previewData.getReceiverAccount(), data.getReceiverAccount());
-        Assert.assertEquals(previewData.getAmount(), data.getAmount());
-        Assert.assertEquals(previewData.getContent(), data.getContent());
-        Assert.assertEquals(previewData.getReceiverName(), data.getReceiverName());
+        SoftAssert sa = new SoftAssert();
+        sa.assertEquals(previewData.getReceiverAccount(), data.getReceiverAccount());
+        sa.assertEquals(previewData.getAmount(), data.getAmount());
+        sa.assertEquals(previewData.getContent(), data.getContent());
+        sa.assertEquals(previewData.getReceiverName(), data.getReceiverName());
 
-        confirmationPage.clickConfirm();
+        confirmationPage.confirm();
 
         otp = otpPage.getOtpFromEmail();
 
-        otpPage.submitOtp(otp);
+        otpPage.enterOtp(otp);
 
-        Assert.assertEquals(bankAccountPage.getSuccessMessage(), Messages.MONEY_TRANSFER_SUCCESSFUL);
+        otpPage.submitTransfer();
+
+        sa.assertEquals(bankAccountPage.getSuccessMessage(), Messages.MONEY_TRANSFER_SUCCESSFUL);
 
         bankAccountPage.closeDialogMessage();
 
-        Assert.assertEquals(bankAccountPage.getLatestTransactionAmount(1), data.getAmount());
+        sa.assertEquals(bankAccountPage.getLatestTransactionAmount(1), data.getAmount());
 
         bankAccountPage.viewAccountDetail(this.currentDepositAcctAnyTerm);
 
         actualEndingBalance = accountDetailPage.getBalance();
         expectedEndingBalance = TransferUtils.calcExpectedBalanceExternal(currentBalance, data.getAmount());
 
-        Assert.assertEquals(actualEndingBalance, expectedEndingBalance);
+        sa.assertEquals(actualEndingBalance, expectedEndingBalance);
+        sa.assertAll();
     }
 }

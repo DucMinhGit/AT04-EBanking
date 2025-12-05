@@ -35,13 +35,15 @@ public class ExternalTransferOtpPage extends BasePage {
     }
 
     @Step("Enter OTP code ({otp}) and click send")
-    public void submitOtp(String otp) {
-        log.info("Entering OTP: {}", otp);
+    public void enterOtp(String otp) {
         type(otpInput, otp);
+    }
 
-        log.info("Click 'Transfer'...");
+    @Step("Click 'Transfer'...")
+    public void submitTransfer() {
         click(submitButton);
     }
+
 
     @Step("Get OTP Error Message")
     public String getErrorMessage() {

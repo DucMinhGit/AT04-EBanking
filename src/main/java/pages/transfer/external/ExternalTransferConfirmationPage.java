@@ -14,6 +14,7 @@ public class ExternalTransferConfirmationPage extends BasePage {
 
     @Step("Get data for verify (Preview Data)")
     public ExternalTransfer getConfirmationDetailsAsModel() {
+        waitForVisible(amountLabel);
         String rawAmount = getVisibleText(amountLabel).trim();
         String parsedAmount = rawAmount.replaceAll("[^0-9]", "");
         return ExternalTransfer.builder()
@@ -25,7 +26,7 @@ public class ExternalTransferConfirmationPage extends BasePage {
     }
 
     @Step("Click 'Xac nhan' and open OTP page")
-    public void clickConfirm() {
+    public void confirm() {
         waitForVisible(confirmButton);
         click(confirmButton);
     }

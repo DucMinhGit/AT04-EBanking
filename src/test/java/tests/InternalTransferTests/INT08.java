@@ -55,7 +55,7 @@ public class INT08 extends TestBase {
 
         transferPage.submitForm(data);
 
-        confirmPage.clickConfirm();
+        confirmPage.confirm();
 
         otp = confirmPage.getOtpFromEmail();
 
