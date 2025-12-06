@@ -1,5 +1,7 @@
 package utils;
 
+import java.util.Random;
+
 public class TransferUtils {
     public static double generateValidTransferAmount(double currentBalance, double fee) {
         double maxTransferable = currentBalance - fee;
@@ -17,13 +19,20 @@ public class TransferUtils {
     }
 
     public static String generateInvalidOtp(String otp) {
-        if (otp == null || otp.isEmpty()) return "000000";
+        if (otp == null || otp.isEmpty()) return "INVALID";
 
-        String prefix = otp.substring(0, otp.length() - 1);
+        char[] chars = otp.toCharArray();
+        Random rand = new Random();
 
-        char lastChar = otp.charAt(otp.length() - 1);
-        char newLastChar = (lastChar == '1') ? '2' : '1';
+        int pos = rand.nextInt(chars.length);
+        char oldChar = chars[pos];
+        char newChar = oldChar;
 
-        return prefix + newLastChar;
+        while (newChar == oldChar) {
+            newChar = (char) (rand.nextInt(26) + 'A');
+        }
+
+        chars[pos] = newChar;
+        return new String(chars);
     }
 }
