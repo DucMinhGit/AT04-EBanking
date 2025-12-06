@@ -20,13 +20,15 @@ public class EXT08 extends TestBase {
     ExternalTransferConfirmationPage confirmationPage;
     ExternalTransferOtpPage otpPage;
 
-    ExternalTransfer data;
+    ExternalTransfer data = ExternalTransferFactory.initData();
 
     String otp;
     String wrongOtp;
-    Faker faker;
-    double currentBalance;
-    double transferAmount;
+    double currentBalance = Constants.STANDARD_TRANSFER_AMOUNT;
+    double amountTransfer = (currentBalance - Constants.EXT_FEE) - 1;
+
+    Faker faker = new Faker();
+    String content = faker.lorem().sentence(10);
 
     @BeforeMethod
     public void init() {
@@ -35,7 +37,6 @@ public class EXT08 extends TestBase {
         externalTransferPage = new ExternalTransferPage();
         confirmationPage = new ExternalTransferConfirmationPage();
         otpPage = new ExternalTransferOtpPage();
-        faker = new Faker();
     }
 
     @Test(description = "Wrong OTP blocks the External transfer")
@@ -44,14 +45,9 @@ public class EXT08 extends TestBase {
 
         homePage.goToExternalTransferPage();
 
-        externalTransferPage.selectAccount(this.currentDepositAcctAnyTerm);
-
-        currentBalance = externalTransferPage.getAvailableBalance();
-        transferAmount = TransferUtils.generateValidTransferAmount(currentBalance, Constants.EXT_FEE);
-
-        data = ExternalTransferFactory.initData();
-        data.setFromAccountValue("");
-        data.setAmount(transferAmount);
+        data.setFromAccountValue(this.currentDepositAcctAnyTerm);
+        data.setAmount(amountTransfer);
+        data.setContent(content);
 
         externalTransferPage.submitTransferInfo(data);
         confirmationPage.confirm();
