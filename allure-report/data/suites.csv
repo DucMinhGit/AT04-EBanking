@@ -1,0 +1,3 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","14704","Successful External transfer","Default Suite","2025-12-06","passed","2025-12-06","tests.ExternalTransferTests.EXT09","AT04-EBanking","tests.ExternalTransferTests.EXT09","EXT09"
+"","12194","Successful Internal transfer","Default Suite","2025-12-06","passed","2025-12-06","tests.InternalTransferTests.INT01","AT04-EBanking","tests.InternalTransferTests.INT01","INT01"
