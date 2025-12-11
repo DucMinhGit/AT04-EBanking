@@ -14,8 +14,8 @@ public class INT07 extends TestBase {
     InternalTransferPage internalTransferPage;
     InternalTransfer data = new InternalTransfer();
 
-    double currentBalance;
     double amountToTransfer;
+    String content = "TSC 07";
 
     @BeforeMethod
     public void init() {
@@ -29,12 +29,12 @@ public class INT07 extends TestBase {
 
         homePage.goToInternalTransferPage();
 
-        currentBalance = internalTransferPage.getAvailableBalance();
-        amountToTransfer = currentBalance +  1;
+        amountToTransfer = Constants.STANDARD_TRANSFER_AMOUNT +  1;
 
-        data.setFromAccountValue(this.currentDepositAcctAnyTerm);
+        data.setFromAccountValue(this.currentDepositAccAnyTerm);
         data.setReceiverAccount(this.currentSavingAccount);
         data.setAmount(amountToTransfer);
+        data.setContent(content);
 
         internalTransferPage.submitTransferInfo(data);
 

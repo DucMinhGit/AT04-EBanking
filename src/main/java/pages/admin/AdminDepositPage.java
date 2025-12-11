@@ -18,8 +18,11 @@ public class AdminDepositPage extends BasePage {
     public void depositMoney(String accountNo, double amount, String content) {
         log.info("Depositing {} to account {}", amount, accountNo);
 
+        waitForVisible(accountInput);
         type(accountInput, accountNo);
+        waitForVisible(amountInput);
         type(amountInput, String.valueOf(amount));
+        waitForVisible(contentInput);
         type(contentInput, content);
         click(submitBtn);
     }

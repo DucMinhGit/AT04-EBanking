@@ -5,6 +5,7 @@ import io.qameta.allure.Step;
 import models.Account;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.asserts.SoftAssert;
 import pages.*;
 import pages.admin.AdminDepositPage;
 import pages.admin.AdminLoginPage;
@@ -14,14 +15,13 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import lombok.extern.log4j.Log4j2;
-import java.io.File;
 
 @Log4j2
 public class TestBase {
     WebDriver driver;
 
     protected String baseURL = Configs.BASE_URL;
-    protected String currentDepositAcctAnyTerm;
+    protected String currentDepositAccAnyTerm;
     protected String currentSavingAccount;
     protected LoginPage userLoginPage;
     protected HomePage homePage;
@@ -31,6 +31,8 @@ public class TestBase {
     protected AdminLoginPage adminLoginPage;
     protected AdminDepositPage adminDepositPage;
     protected AccountDetailPage accountDetailPage;
+
+    protected SoftAssert sa = new SoftAssert();
 
     @BeforeMethod
     public void setUp() {
@@ -64,13 +66,13 @@ public class TestBase {
         homePage.goToCreateAccountPage();
         createAccountPage.createDepositAcctAnyTerm();
         bankAccountPage.closeDialogMessage();
-        this.currentDepositAcctAnyTerm = bankAccountPage.getNewestAccountNumber("last()");
+        this.currentDepositAccAnyTerm = bankAccountPage.getNewestAccountNumber("last()");
 
         homePage.logout();
 
         adminLoginPage.login(AccountFactory.adminDefault());
         adminDepositPage.goToDepositPage();
-        adminDepositPage.depositMoney(this.currentDepositAcctAnyTerm, amount, "Cap tien test tu dong");
+        adminDepositPage.depositMoney(this.currentDepositAccAnyTerm, amount, "Cap tien test tu dong");
         adminDepositPage.logout();
 
         Driver.getDriver().get(baseURL);

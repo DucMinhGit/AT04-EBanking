@@ -51,7 +51,7 @@ public class EXT09 extends TestBase {
 
         homePage.goToExternalTransferPage();
 
-        data.setFromAccountValue(this.currentDepositAcctAnyTerm);
+        data.setFromAccountValue(this.currentDepositAccAnyTerm);
         data.setAmount(amountTransfer);
         data.setContent(content);
 
@@ -59,7 +59,6 @@ public class EXT09 extends TestBase {
 
         previewData = confirmationPage.getConfirmationDetailsAsModel();
 
-        SoftAssert sa = new SoftAssert();
         sa.assertEquals(previewData.getReceiverAccount(), data.getReceiverAccount());
         sa.assertEquals(previewData.getAmount(), data.getAmount());
         sa.assertEquals(previewData.getContent(), data.getContent());
@@ -79,7 +78,7 @@ public class EXT09 extends TestBase {
 
         sa.assertEquals(bankAccountPage.getLatestTransactionAmount(1), data.getAmount());
 
-        bankAccountPage.viewAccountDetail(this.currentDepositAcctAnyTerm);
+        bankAccountPage.viewAccountDetail(this.currentDepositAccAnyTerm);
 
         actualEndingBalance = accountDetailPage.getBalance();
         expectedEndingBalance = TransferUtils.calcExpectedBalanceExternal(currentBalance, data.getAmount());

@@ -32,8 +32,6 @@ public class ExternalTransferPage extends BasePage {
 
             log.info("Account selected: {}. New balance updated.", accountValue);
         }
-
-        log.warn("Skip account selection (value is null or empty).");
     }
 
     @Step("Select 'Receiver Account': {receiverAccount}")
@@ -55,7 +53,6 @@ public class ExternalTransferPage extends BasePage {
 
             selectBranch(branch);
         }
-        log.warn("Skip selection branch and bank.");
     }
 
     @Step("Select 'Branch': {branch}")

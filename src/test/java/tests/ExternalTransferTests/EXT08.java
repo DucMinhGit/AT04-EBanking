@@ -45,7 +45,7 @@ public class EXT08 extends TestBase {
 
         homePage.goToExternalTransferPage();
 
-        data.setFromAccountValue(this.currentDepositAcctAnyTerm);
+        data.setFromAccountValue(this.currentDepositAccAnyTerm);
         data.setAmount(amountTransfer);
         data.setContent(content);
 

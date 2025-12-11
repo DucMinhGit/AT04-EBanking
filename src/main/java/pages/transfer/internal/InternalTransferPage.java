@@ -1,13 +1,13 @@
 package pages.transfer.internal;
 
 import io.qameta.allure.Step;
-import models.ExternalTransfer;
 import models.InternalTransfer;
 import pages.BasePage;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utils.Driver;
 
 @Log4j2
 public class InternalTransferPage extends BasePage {

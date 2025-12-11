@@ -41,31 +41,39 @@ public class INT01 extends TestBase {
     public void INT01() {
         userLoginPage.login(AccountFactory.userDefault());
 
+        // Open the Internal Transfer interface
         homePage.goToInternalTransferPage();
 
-        data.setFromAccountValue(this.currentDepositAcctAnyTerm);
+        // Fill data into Source Account, Receiving Account Number, Amount, and Payment Content
+        data.setFromAccountValue(this.currentDepositAccAnyTerm);
         data.setReceiverAccount(currentSavingAccount);
         data.setAmount(amountTransfer);
         data.setContent(content);
 
+        // Click on the "Confirm" button to navigate to the "Confirm" screen
         internalTransferPage.submitTransferInfo(data);
 
+        // Click on the "Confirm" button to navigate to the "Enter OTP" screen
         confirmPage.confirm();
 
+        // Receive OTP in account email
         otp = confirmPage.getOtpFromEmail();
 
+        // Enter OTP into the Transaction Code (Mã giao dịch) field
         otpPage.enterOtp(otp);
 
+        // Click on "Transfer Money"
         otpPage.clickTransfer();
 
-        SoftAssert sa = new SoftAssert();
+        // Popup shows "Transfer successful" (Chuyển tiền thành công).
         sa.assertEquals(bankAccountPage.getSuccessMessage(), Messages.MONEY_TRANSFER_SUCCESSFUL);
 
         bankAccountPage.closeDialogMessage();
 
+        // Sender/recipient balances updated
         sa.assertEquals(bankAccountPage.getLatestTransactionAmount(1), data.getAmount());
 
-        bankAccountPage.viewAccountDetail(this.currentDepositAcctAnyTerm);
+        bankAccountPage.viewAccountDetail(this.currentDepositAccAnyTerm);
 
         expectedEndingBalance = TransferUtils.calcExpectedBalanceInternal(currentBalance, data.getAmount());
 

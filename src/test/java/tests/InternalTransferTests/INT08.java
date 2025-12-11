@@ -23,10 +23,10 @@ public class INT08 extends TestBase {
     InternalTransfer data = new InternalTransfer();
     String otp;
     OTPPage otpPage;
-    double currentBalance;
     double transferAmount;
     Faker faker;
     String wrongOtp;
+    String content = "TCS 08";
 
     @BeforeMethod
     public void init() {
@@ -45,13 +45,12 @@ public class INT08 extends TestBase {
 
         homePage.goToInternalTransferPage();
 
-        transferPage.selectAccount(this.currentDepositAcctAnyTerm);
+        transferAmount = TransferUtils.generateValidTransferAmount(Constants.STANDARD_TRANSFER_AMOUNT, Constants.INT_FEE);
 
-        currentBalance = transferPage.getAvailableBalance();
-        transferAmount = TransferUtils.generateValidTransferAmount(currentBalance, Constants.INT_FEE);
-
-        data.setFromAccountValue("");
+        data.setFromAccountValue(this.currentDepositAccAnyTerm);
+        data.setReceiverAccount(this.currentSavingAccount);
         data.setAmount(transferAmount);
+        data.setContent(content);
 
         transferPage.submitTransferInfo(data);
 

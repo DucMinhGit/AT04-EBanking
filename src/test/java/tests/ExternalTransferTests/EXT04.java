@@ -1,6 +1,7 @@
 package tests.ExternalTransferTests;
 
 import base.TestBase;
+import com.github.javafaker.Faker;
 import datafactory.AccountFactory;
 import datafactory.ExternalTransferFactory;
 import models.ExternalTransfer;
@@ -13,10 +14,17 @@ import utils.Messages;
 
 public class EXT04 extends TestBase {
     ExternalTransferPage externalTransferPage;
-    ExternalTransfer data;
+
+    ExternalTransfer data = ExternalTransferFactory.initData();
+    double currentBalance = Constants.STANDARD_TRANSFER_AMOUNT;
+    double amountTransfer = (currentBalance - Constants.EXT_FEE) - 1;
+
+    Faker faker = new Faker();
+    String content = faker.lorem().sentence(10);
 
     @BeforeMethod
     public void init() {
+        setupUserWithBalance(AccountFactory.userDefault(), Constants.STANDARD_TRANSFER_AMOUNT);
         externalTransferPage = new ExternalTransferPage();
     }
 
@@ -25,8 +33,10 @@ public class EXT04 extends TestBase {
         userLoginPage.login(AccountFactory.userDefault());
         homePage.goToExternalTransferPage();
 
-        data = ExternalTransferFactory.initData();
+        data.setFromAccountValue(this.currentDepositAccAnyTerm);
         data.setBankValue("");
+        data.setAmount(amountTransfer);
+        data.setContent(content);
 
         externalTransferPage.submitTransferInfo(data);
 

@@ -27,15 +27,15 @@ public abstract class BasePage {
     }
 
     protected void click(By locator) {
-        Driver.getDriver().findElement(locator).click();
+        driver.findElement(locator).click();
     }
 
     protected void type(By locator, String text) {
-        Driver.getDriver().findElement(locator).sendKeys(text);
+        driver.findElement(locator).sendKeys(text);
     }
 
     protected String getVisibleText(By locator) {
-        return Driver.getDriver().findElement(locator).getText();
+        return driver.findElement(locator).getText();
     }
 
     protected void waitForVisible(By locator) {
