@@ -10,8 +10,7 @@ import utils.Constants;
 public class AdminDepositPage extends BasePage {
     @Step("Navigate to Deposit Page")
     public void goToDepositPage() {
-        waitForVisible(depositMenuLink);
-        click(depositMenuLink);
+        clickMenuItemByIndex(3);
     }
 
     @Step("Admin deposit {amount} to account {accountNo}")
@@ -33,7 +32,15 @@ public class AdminDepositPage extends BasePage {
         waitForVisible(adminLoginInput);
     }
 
-    private final By depositMenuLink = By.xpath("//a[contains(@href, 'deposit.xhtml')]");
+    private void clickMenuItemByIndex(int index) {
+        By dynamicLocator = By.xpath(String.format(depositMenuLink, index));
+
+        waitForVisible(dynamicLocator);
+        click(dynamicLocator);
+    }
+
+    private final String depositMenuLink = "//div[contains(@class, 'leftsidebar')]//ul//li[@role='menuitem'][%d]/a";
+
     private final By accountInput = By.name("j_idt23:j_idt27");
     private final By amountInput = By.name("j_idt23:j_idt29");
     private final By contentInput = By.name("j_idt23:j_idt31");

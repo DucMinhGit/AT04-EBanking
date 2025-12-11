@@ -9,6 +9,15 @@ public class Constants {
     public static final float INT_FEE = 1100;
     public static final double STANDARD_TRANSFER_AMOUNT = 10000;
 
+    public enum AccountType {
+        DEFAULT(1),
+        DEPOSIT_ANY_TERM(2),
+        SAVING(3);
+
+        public final int index;
+        AccountType(int index) { this.index = index; }
+    }
+
     private Constants() {
     }
 }

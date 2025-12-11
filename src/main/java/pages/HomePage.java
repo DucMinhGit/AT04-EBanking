@@ -6,32 +6,43 @@ import org.openqa.selenium.By;
 
 @Log4j2
 public class HomePage extends BasePage {
+    @Step("Navigate to 'Chuyển khoản'")
     public void goToInternalTransferPage() {
-        log.info("Clicking 'Transfer' link in side menu");
-        driver.findElement(transferLink).click();
+        clickSideMenu(INTERNAL_TRANSFER);
     }
 
     @Step("Navigate to 'Tạo tài khoản'")
     public void goToCreateAccountPage() {
-        log.info("Clicking 'Open Account' link");
-        driver.findElement(createAccountLink).click();
+        clickSideMenu(CREATE_ACCOUNT);
     }
 
     @Step("Navigate to 'Liên Ngân Hàng'")
     public void goToExternalTransferPage() {
-        log.info("Click 'Lien Ngan Hang' link in side menu");
-        waitForVisible(externalTransferLink);
-        driver.findElement(externalTransferLink).click();
+        clickSideMenu(EXTERNAL_TRANSFER);
     }
 
     @Step("Logout")
     public void logout() {
-        log.info("Clicking 'Logout' link");
-        driver.findElement(logoutLink).click();
+        clickSideMenu(LOGOUT);
     }
 
-    private final By transferLink = By.xpath("//div[contains(@class, 'ui-menu')]//ul[contains(@class, 'ui-menu-list')]/li[@role='menuitem'][6]/a");
-    private final By externalTransferLink = By.xpath("//div[contains(@class, 'ui-menu')]//ul[contains(@class, 'ui-menu-list')]/li[@role='menuitem'][7]/a");
-    private final By logoutLink = By.xpath("//div[contains(@class, 'ui-menu')]//ul/li[last()]/a");
-    private final By createAccountLink = By.xpath("//div[contains(@class, 'ui-menu')]//ul[contains(@class, 'ui-menu-list')]/li[@role='menuitem'][3]/a");
+    public void clickSideMenu(int index) {
+        By menuLocator = By.xpath(String.format(MENU_ITEM_TEMPLATE, index));
+
+        waitForVisible(menuLocator);
+        click(menuLocator);
+    }
+
+    public void clickSideMenu(String index) {
+        By menuLocator = By.xpath(String.format(MENU_ITEM_TEMPLATE, index));
+
+        waitForVisible(menuLocator);
+        click(menuLocator);
+    }
+
+    private final int CREATE_ACCOUNT = 3;
+    private final int INTERNAL_TRANSFER = 6;
+    private final int EXTERNAL_TRANSFER = 7;
+    private final int LOGOUT = 8;
+    private final String MENU_ITEM_TEMPLATE = "//div[contains(@class, 'leftsidebar')]//ul/li[@role='menuitem'][%d]/a";
 }
